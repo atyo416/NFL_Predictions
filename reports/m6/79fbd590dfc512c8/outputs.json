@@ -1,0 +1,18 @@
+{
+  "season_phase.csv": "86b5e0a0a96e616b9d2994c80db185ef7944aec9c55cef21bdeeac2061f06534",
+  "predictions.parquet": "21ea2acca5ff13ce2345daafdb581251169c7d0b40cc558cf9200f31b83cecdf",
+  "comparison.csv": "7a22c4e95a982dd45fae004e143b8bde9f15c755370b6f427ebaf139900fad28",
+  "registry_versions.json": "e6464d9b1bbeb6719c553aeddba003ce367c2b3dd07e34bd4268de5e780f8529",
+  "feature_coverage.csv": "637889066afd6fcc4ec0ed26fe4e63d5914621a2656d3633b33408e2ff438547",
+  "vs_m5.csv": "fbb6b882221e124335a903e4b8b14a50165ba8416d96e23469659742c06f8b66",
+  "calibration.csv": "198c8f83b5fa30c30558f7c455a43bd40ef045520510fa4ae5dc47aeece693e8",
+  "permutation_importance.csv": "83f52594fa415936bde173e8d733bc0c0bd1358a4d5a9a4c619fbc1441f3c3f2",
+  "metadata.json": "f4b235dbe72311eb1871953cfdc3b1098016f539885d735d78f49c0fbfeeac28",
+  "reliability.png": "53d72dba0f853b12dbc8b20853faf65a41d341097c5d3d5863d429dc5496ff7f",
+  "registry_metadata.json": "9d97879ab8d2b93f8fb6aa2c155d5268f97c94f8843c04b617dcdd95fc27f31d",
+  "training.csv": "ad83c2d552056b40d7917397fd0cc51de0cb274b45476e5901e9f691e000ad71",
+  "confidence_buckets.csv": "662d6291b142563f513be4406ee4f95954a02a4d80f1aafca5e0e1757d24be69",
+  "personnel_coverage.csv": "48cfb4874413dfa608c207e22a0f68deee8337e5de132a9c899974c73f3fc83f",
+  "MODEL_COMPARISON.md": "f6f285d0cae67fc7512b9c48bafd7b8537a09c2961457959b5a24749ecced201",
+  "probability_buckets.csv": "f224dcd2a39e6acf9e3ea673e7d5a1da43174797d5db09a211c850ee12d5dd7b"
+}

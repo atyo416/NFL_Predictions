@@ -8,7 +8,7 @@ from nfl_predictor.model import load
 from nfl_predictor.predictions import predict
 from nfl_predictor.database import connect,attach_results
 st.set_page_config(page_title='NFL Prediction Engine',layout='wide')
-st.title('NFL Game Prediction Engine · M5')
+st.title('NFL Game Prediction Engine · M6')
 st.caption('Experimental statistical baseline. Probabilities are not claimed to be calibrated.')
 page=st.sidebar.radio('Page',['Upcoming Games','Team Comparison','Model Performance','Model Analysis','Team Power Rankings'])
 try:
@@ -68,6 +68,8 @@ elif page=='Team Comparison':
             st.write(f'Official champion model estimate (not a saved forecast): home {p:.1%}; away {1-p:.1%}')
     from nfl_predictor.m3_dashboard import render_matchup
     render_matchup(schedules,DATA,a,b,selected)
+    from nfl_predictor.m6_dashboard import render_context
+    render_context(schedules,metrics,DATA,ROOT,a,b,selected)
 elif page=='Team Power Rankings':
     from nfl_predictor.m3_dashboard import render_rankings
     render_rankings(DATA,ROOT/'reports')
@@ -78,6 +80,8 @@ elif page=='Model Analysis':
     render_m4(ROOT/'reports/m4')
     from nfl_predictor.history_dashboard import render as render_history
     render_history(ROOT)
+    from nfl_predictor.m6_dashboard import render_analysis
+    render_analysis(ROOT)
 else:
     st.info('Historical backtests are retrospective simulations, distinct from forecasts saved before kickoff.')
     path=ROOT/'reports/backtest.json'

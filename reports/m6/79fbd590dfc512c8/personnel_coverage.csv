@@ -1,0 +1,13 @@
+evaluation,experiment,status,kind,training_games,evaluation_games,training_coverage,evaluation_coverage,training_seasons,evaluation_seasons,qb_changes,meaningful_absences,missing_status_fraction,verified_starter_team_fraction,timestamp_rule
+2022,E_qb,skipped_insufficient_verified_coverage,qb,0,0,0.0,0.0,[],[],0,0,1.0,0.0,publication AND observation before declared and feature cutoffs; verified reference required
+2022,F_ol,skipped_insufficient_verified_coverage,player,0,0,0.0,0.0,[],[],0,0,1.0,0.0,publication AND observation before declared and feature cutoffs; verified reference required
+2022,G_adjusted_qb_ol,skipped_insufficient_verified_coverage,qb,0,0,0.0,0.0,[],[],0,0,1.0,0.0,publication AND observation before declared and feature cutoffs; verified reference required
+2023,E_qb,skipped_insufficient_verified_coverage,qb,0,0,0.0,0.0,[],[],0,0,1.0,0.0,publication AND observation before declared and feature cutoffs; verified reference required
+2023,F_ol,skipped_insufficient_verified_coverage,player,0,0,0.0,0.0,[],[],0,0,1.0,0.0,publication AND observation before declared and feature cutoffs; verified reference required
+2023,G_adjusted_qb_ol,skipped_insufficient_verified_coverage,qb,0,0,0.0,0.0,[],[],0,0,1.0,0.0,publication AND observation before declared and feature cutoffs; verified reference required
+2024,E_qb,skipped_insufficient_verified_coverage,qb,0,0,0.0,0.0,[],[],0,0,1.0,0.0,publication AND observation before declared and feature cutoffs; verified reference required
+2024,F_ol,skipped_insufficient_verified_coverage,player,0,0,0.0,0.0,[],[],0,0,1.0,0.0,publication AND observation before declared and feature cutoffs; verified reference required
+2024,G_adjusted_qb_ol,skipped_insufficient_verified_coverage,qb,0,0,0.0,0.0,[],[],0,0,1.0,0.0,publication AND observation before declared and feature cutoffs; verified reference required
+2025,E_qb,skipped_insufficient_verified_coverage,qb,0,0,0.0,0.0,[],[],0,0,1.0,0.0,publication AND observation before declared and feature cutoffs; verified reference required
+2025,F_ol,skipped_insufficient_verified_coverage,player,0,0,0.0,0.0,[],[],0,0,1.0,0.0,publication AND observation before declared and feature cutoffs; verified reference required
+2025,G_adjusted_qb_ol,skipped_insufficient_verified_coverage,qb,0,0,0.0,0.0,[],[],0,0,1.0,0.0,publication AND observation before declared and feature cutoffs; verified reference required

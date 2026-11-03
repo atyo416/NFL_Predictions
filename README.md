@@ -1,4 +1,4 @@
-# NFL Game Prediction Engine — M5
+# NFL Game Prediction Engine — M6
 
 Local experimental NFL regular-season winner model using nflverse, Python, logistic regression, Parquet and SQLite. No betting features. CPU only; allow several GB of free disk space for initial play-by-play downloads. Python 3.11+ is required; Python 3.12 was verified on Linux. Windows 10/11 is the target, but a native Windows run has not been verified.
 
@@ -7,7 +7,7 @@ Local experimental NFL regular-season winner model using nflverse, Python, logis
 With Python and Git installed:
 
 ```powershell
-git clone --branch m5-historical-training https://github.com/atyo416/NFL_Predictions.git
+git clone --branch m6-opponent-personnel https://github.com/atyo416/NFL_Predictions.git
 cd NFL_Predictions
 py -3.12 -m venv .venv
 .\.venv\Scripts\Activate.ps1
@@ -228,4 +228,69 @@ Model Analysis includes **Historical Training Analysis** with coverage, window/d
 
 On a genuine Windows 10/11 machine with Python 3.12, follow the existing installation instructions and retain your original local data/model/forecast backups. `scripts/windows_acceptance.ps1 -Full` runs the combined command checklist; `scripts/verify_local_acceptance.py` records platform evidence, tests scoring in a **temporary database copy**, and verifies existing model/forecast files are unchanged. It never activates a candidate. A missing original champion, absent caches, skipped upcoming games or incomplete manual UI/RAM checks remain unrun acceptance items. For data processing, run with enough disk space for retained generations and record actual Windows RAM/runtime. Start Streamlit manually and verify all five pages and Historical Training Analysis.
 
-These scripts were provided for later native execution; Linux checks do not certify Windows. See `M5_ENGINEERING_REPORT.md` for actual measured results and outstanding acceptance limitations. Downloaded raw datasets and trained binaries remain ignored by Git; use the CLI to reproduce local caches. M6 is not implemented.
+These scripts were provided for later native execution; Linux checks do not certify Windows. See `M5_ENGINEERING_REPORT.md` for actual measured results and outstanding acceptance limitations. Downloaded raw datasets and trained binaries remain ignored by Git; use the CLI to reproduce local caches. M5 behavior remains available alongside M6.
+
+## M6: opponent adjustment and evidence-qualified player context
+
+M6 preserves the M2 production champion and fixed M5 experimental baseline: shallow HGB, labels from 2008, uniform weights. No window or boosting search is added, and every new candidate remains activation-blocked.
+
+```powershell
+python -m nfl_predictor.cli build-adjusted-efficiency
+python -m nfl_predictor.cli audit-personnel
+python -m nfl_predictor.cli compare-m6
+python -m nfl_predictor.cli report-m6
+python -m pytest -q
+python -m streamlit run app.py
+```
+
+These commands use existing 1999–2026 caches. Run M5 ingestion first if seasons are missing. Opponent snapshots are source/configuration/code/cutoff-keyed and cached per season. QB summaries read only relevant cached PBP columns, one season at a time; model experiments reuse compact matrices. The UI never downloads or trains models. `build-adjusted-efficiency --cutoff 2026-11-03T08:00:00-05:00` limits snapshots to information eligible at that explicit cutoff. Original caches, forecasts, registry entries and Elo histories are retained.
+
+### Opponent-adjustment model
+
+`config/m6_protocol.json` fixes the additive model `observed offense = league mean + offensive strength + opposing defensive-allowed strength`. Eight simultaneous Jacobi iterations apply four-game shrinkage, half-weight offseason retention, 0.5 damping and bounded opponent/strength contributions (EPA ±0.5; success ±0.2). Lower defensive-allowed strength is stronger. All observations, prior-season means and league references are filtered **before** solving at the target cutoff. Future opponent improvement cannot rewrite an earlier snapshot. Same-time and delayed results remain ineligible until strictly earlier availability. First-season missing history produces a neutral algorithm prior, not observed zero statistics.
+
+A preserves M5 raw features. B replaces four season EPA/success differences, while retaining M5 recent EPA, yards and other controls. C adds adjusted measures to raw. D uses adjusted home/away matchup pairs; D2 uses overall differential separately, avoiding exact linear redundancy. Fixed C ablations test Elo/offensive/defensive contribution. Two/eight-game adjustment prior sensitivity is reported only on 2019–2021 development periods; it never selects a new default against 2024–2025. All candidates use identical eligible evaluation games; the already-examined years remain exploratory.
+
+### QB performance and availability
+
+The player-performance cache aggregates identified prior dropbacks, including sacks and QB scrambles, excluding kneels/spikes and missing EPA. GSIS identities persist across team changes and multiple passers per game. A passer role on a play is performance context, not a roster-position or starter designation. EPA and success pool current/prior-season eligible samples and shrink with 80 league-prior dropbacks. Recent EPA uses the last three eligible player-games. Career samples provide experience; `1/sqrt(n+80)` is an uncertainty index, not calibrated confidence. Rookies/missing recent performance stay unknown. Advanced fields such as CPOE are descriptive when present, not fabricated historical inputs.
+
+The original M3 QB layer is retained. M6 requires stronger named references, positions and explicit forecast cutoffs; old unverified depth/roster/injury data is **never automatically upgraded**. Actual previous starters are historical observations only. Contemporary NFL injury/depth data without provable publication timing cannot enter a historical verified experiment.
+
+To import independently reviewed evidence, create a JSON list and run:
+
+```powershell
+python -m nfl_predictor.cli import-personnel --evidence-file reviewed_personnel.json
+```
+
+Example **schema only**, not a real designation:
+
+```json
+[{
+  "game_id": "exact nflverse target game ID", "team": "LV", "player_id": "GSIS player ID",
+  "position": "QB", "source_name": "Independently reviewed team report",
+  "source_reference": "URL or retained source document reference",
+  "source_at": "2026-11-03T10:00:00-05:00", "observed_at": "2026-11-03T10:05:00-05:00",
+  "forecast_cutoff": "2026-11-03T11:00:00-05:00", "availability": "likely_starter",
+  "quality": "reviewed timestamped evidence", "verification_status": "verified_pregame",
+  "is_starter": true, "coverage_groups": []
+}]
+```
+
+Supported availability statuses: `confirmed_starter`, `likely_starter`, `questionable`, `ruled_out`, `unknown`. Verification classes: `verified_pregame`, `retrospective`, `unverified`. Verified claims require timezone-aware source and observation times strictly before both the declared and actual feature cutoffs, and a nonempty reference. The declared cutoff must already have occurred at the feature cutoff. Unknown timestamps remain unverified; equally recent conflicts remain unknown. A later ruled-out report supersedes an older starter claim. Code validates recorded assertions, not authenticity of user-supplied sources; retain the underlying documents.
+
+Position groups OL, WR, RB, TE, DL, LB and DB are supported. `is_starter` must reflect independently established role information, not current-game participation. `coverage_groups` may name a group **only if the cited verified report actually provides complete relevant coverage**. Otherwise its unavailable-starter count remains unknown. Even with complete scope, unknown or conflicting unavailable-player roles cannot become zero absences. Missing injury reports never imply healthy players. Initial F uses OL counts only; no arbitrary point-spread/player-impact values are assigned.
+
+```powershell
+python -m nfl_predictor.cli snapshot-personnel --game-id ACTUAL_UPCOMING_GAME_ID
+```
+
+Snapshots record actual creation time and are allowed only before a genuine unstarted target kickoff. They are immutable, checksummed **context records**, not official winner forecasts; revised snapshots are separate files. Historical evidence imported today may support a labeled reconstruction, never backdated genuine issuance. Original SQLite forecasts stay unchanged.
+
+Personnel E/F experiments require matched verified samples, minimum 100 training/50 evaluation games and 50% eligible game coverage by default. G uses fixed B+QB+OL only if both independent studies qualify. A skipped experiment is reported with counts/coverage; no fabricated starters, healthy assumptions or unmatched full-season baseline comparison is allowed.
+
+### Dashboard, reports and Windows
+
+Team Comparison adds raw/adjusted EPA, success, opponent schedule context, previous observed QB, verified expected context and position-group unknowns. Model Analysis adds M6 comparisons, noncausal permutation diagnostics, coverage, calibration and model metadata. Source player statistics/participation/snap-count schemas were inspected; complete historical **verified pregame** availability was not established. See `M6_ENGINEERING_REPORT.md` for measured successful and unsuccessful experiments.
+
+The brief reports M5 native acceptance; M6's Linux tests do not constitute a new genuine Windows run. The corrected file-based PowerShell preflight remains in place. On Windows Python 3.12, run the full test suite, both feature/analysis commands, verify all existing pages, champion predictions, registry loading and persistence using the acceptance checklist. M7 is not implemented.
