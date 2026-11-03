@@ -8,7 +8,7 @@ from nfl_predictor.model import load
 from nfl_predictor.predictions import predict
 from nfl_predictor.database import connect,attach_results
 st.set_page_config(page_title='NFL Prediction Engine',layout='wide')
-st.title('NFL Game Prediction Engine · M4')
+st.title('NFL Game Prediction Engine · M5')
 st.caption('Experimental statistical baseline. Probabilities are not claimed to be calibrated.')
 page=st.sidebar.radio('Page',['Upcoming Games','Team Comparison','Model Performance','Model Analysis','Team Power Rankings'])
 try:
@@ -76,6 +76,8 @@ elif page=='Model Analysis':
     render(ROOT/'reports/m2', DATA/'predictions.db')
     from nfl_predictor.m4_dashboard import render as render_m4
     render_m4(ROOT/'reports/m4')
+    from nfl_predictor.history_dashboard import render as render_history
+    render_history(ROOT)
 else:
     st.info('Historical backtests are retrospective simulations, distinct from forecasts saved before kickoff.')
     path=ROOT/'reports/backtest.json'

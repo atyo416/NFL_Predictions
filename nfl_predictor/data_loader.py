@@ -94,23 +94,28 @@ def update(seasons=range(2018,2027), refresh=False):
         except Exception as exc:
             raise RuntimeError(f'Download/validation failed for {season}; existing cache retained where possible: {exc}') from exc
 
-def cached():
+def cached(seasons=None, data=None):
     from .integrity import read_season
     from .data_validation import coverage
     import warnings
-    pointers = {int(p.stem):p for p in (DATA/'manifests').glob('*.json')}
-    legacy = {int(p.stem.split('_')[-1]):p for p in (DATA/'processed').glob('schedule_*.parquet')}
+    root=Path(data) if data is not None else DATA
+    pointers = {int(p.stem):p for p in (root/'manifests').glob('*.json')}
+    legacy = {int(p.stem.split('_')[-1]):p for p in (root/'processed').glob('schedule_*.parquet')}
+    # Preserve the original M1–M4 feature history unless expansion is explicit.
+    selected=set(range(2018,2027) if seasons is None else seasons)
+    pointers={year:path for year,path in pointers.items() if year in selected}
+    legacy={year:path for year,path in legacy.items() if year in selected}
     if not pointers and not legacy:
         raise FileNotFoundError('No cache. Run python -m nfl_predictor.cli update first.')
     schedule_frames, metric_frames = [], []
     for season in sorted(pointers.keys() | legacy.keys()):
         if season in pointers:
-            frames, meta = read_season(DATA,season,include_pbp=False)
+            frames, meta = read_season(root,season,include_pbp=False)
             schedule_frames.append(frames['schedules']); metric_frames.append(frames['metrics'])
         else:
             warnings.warn(f'Legacy cache {season} has no verified manifest; run update to adopt it.',stacklevel=2)
             schedule_frames.append(pd.read_parquet(legacy[season]))
-            metric_frames.append(pd.read_parquet(DATA/'processed'/f'metrics_{season}.parquet'))
+            metric_frames.append(pd.read_parquet(root/'processed'/f'metrics_{season}.parquet'))
     schedules = pd.concat(schedule_frames,ignore_index=True)
     team_metrics = pd.concat(metric_frames,ignore_index=True)
     coverage(schedules,team_metrics)

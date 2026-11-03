@@ -10,7 +10,10 @@ from .database import connect,attach_results
 from .predictions import predict
 
 def main():
-    p=argparse.ArgumentParser(); p.add_argument('command',choices=['update','features','train','backtest','predict','analyze','recover-cache','ratings','rankings','compare-m3','report-m3','update-qb','import-qb','train-m4','compare-m4','report-m4','activate-model','rollback-model']); p.add_argument('--seasons',nargs='+',type=int); p.add_argument('--refresh',action='store_true'); p.add_argument('--cutoff'); p.add_argument('--protocol'); p.add_argument('--qb-file'); p.add_argument('--decision-file'); p.add_argument('--event-id');  a=p.parse_args()
+    p=argparse.ArgumentParser(); p.add_argument('command',choices=['update','features','train','backtest','predict','analyze','recover-cache','ratings','rankings','compare-m3','report-m3','update-qb','import-qb','train-m4','compare-m4','report-m4','activate-model','rollback-model','update-history','audit-history','compare-history','report-m5']); p.add_argument('--seasons',nargs='+',type=int); p.add_argument('--refresh',action='store_true'); p.add_argument('--cutoff'); p.add_argument('--protocol'); p.add_argument('--qb-file'); p.add_argument('--decision-file'); p.add_argument('--event-id'); p.add_argument('--start',type=int,default=1999); p.add_argument('--end',type=int,default=2017);  a=p.parse_args()
+    if a.command in ['update-history','audit-history','compare-history','report-m5']:
+        from .history_cli import execute
+        execute(a.command,DATA,ROOT,a.start,a.end,a.refresh,a.protocol); return
     if a.command=='update':
         update(a.seasons or range(2018,2027),a.refresh); return
     if a.command=='recover-cache':

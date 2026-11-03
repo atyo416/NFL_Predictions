@@ -50,7 +50,7 @@ def read_season(root, season, include_pbp=True):
         raise ValueError('Invalid cached kickoff timestamps')
     return frames, manifest
 
-def publish(root, season, schedules, metrics, pbp, retrieved_at=None):
+def publish(root, season, schedules, metrics, pbp, retrieved_at=None, processing_metadata=None):
     root = Path(root)
     pointer = root/'manifests'/f'{season}.json'
     previous = json.loads(pointer.read_text()) if pointer.exists() else None
@@ -65,8 +65,9 @@ def publish(root, season, schedules, metrics, pbp, retrieved_at=None):
         check = pd.read_parquet(path)
         if not check.equals(frame.reset_index(drop=True)):
             raise ValueError(f'Parquet round-trip failed: {name}')
-        files[name] = {'file':path.name,'sha256':digest(path),'rows':len(frame),'columns':list(frame.columns)}
+        files[name] = {'file':path.name,'sha256':digest(path),'rows':len(frame),'columns':list(frame.columns),'bytes':path.stat().st_size}
     manifest = {'schema_version':SCHEMA_VERSION,'season':int(season),'generation':generation,'retrieved_at':retrieved_at or datetime.now(timezone.utc).isoformat(),'source':'nflverse via nflreadpy','files':files,'previous_generation':previous['generation'] if previous else None}
+    if processing_metadata is not None:manifest['processing']=processing_metadata
     atomic_json(manifest,directory/'manifest.json')
     if previous and any(previous['files'][k]['sha256'] != files[k]['sha256'] for k in files):
         warnings.warn(f'Season {season} source revision detected; previous generation retained; saved forecasts unchanged.',stacklevel=2)

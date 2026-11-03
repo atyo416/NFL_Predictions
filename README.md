@@ -1,4 +1,4 @@
-# NFL Game Prediction Engine — M1
+# NFL Game Prediction Engine — M5
 
 Local experimental NFL regular-season winner model using nflverse, Python, logistic regression, Parquet and SQLite. No betting features. CPU only; allow several GB of free disk space for initial play-by-play downloads. Python 3.11+ is required; Python 3.12 was verified on Linux. Windows 10/11 is the target, but a native Windows run has not been verified.
 
@@ -7,7 +7,7 @@ Local experimental NFL regular-season winner model using nflverse, Python, logis
 With Python and Git installed:
 
 ```powershell
-git clone https://github.com/atyo416/NFL_Predictions.git
+git clone --branch m5-historical-training https://github.com/atyo416/NFL_Predictions.git
 cd NFL_Predictions
 py -3.12 -m venv .venv
 .\.venv\Scripts\Activate.ps1
@@ -188,3 +188,44 @@ Activation verifies the exact reviewed artifact and evidence file, saves the pre
 All candidate results remain exploratory. A small historical accuracy gain, an unadjusted importance score or a single favorable interval is insufficient for promotion. Windows testing, historical source vintages, final-publication timestamps, limited seasons, repeated-team dependence and multiplicity remain limitations. M5 and M7 are not implemented.
 
 The installed sklearn 1.9 binning routine cannot fit an entirely missing training column. M4 excludes such columns based only on training rows and records them in candidate metadata; they stay excluded even if later values become available. Partially missing columns still use native tree routing. An entirely empty feature matrix uses an intercept-only constant. No source statistics are invented. If a cached report exists but its ignored candidate artifacts are absent/corrupt, `compare-m4 --refresh` creates a new versioned run with identical parameters and an explicit rebuild revision, preserving the previous evidence.
+
+## M5: historical windows and recency weighting (at-risk development)
+
+M5 expands cached source support to **1999–2026** and compares earliest-label policies W1=2018, W2=2013, W3=2008 and W4=1999. The original M2 champion, M4 registry, official SQLite forecasts and Elo snapshots remain unchanged. Every M5 model is explicitly activation-blocked. Native combined M4/M5 Windows acceptance remains pending; at-risk development is not promotion approval.
+
+```powershell
+python -m nfl_predictor.cli update-history --start 1999 --end 2017
+python -m nfl_predictor.cli audit-history
+python -m nfl_predictor.cli compare-history
+python -m nfl_predictor.cli report-m5
+python -m pytest -q
+python -m streamlit run app.py
+```
+
+Historical downloads require Internet. They operate one season at a time, disable nflreadpy's accumulating memory cache, and publish through the existing atomic manifest framework. Interrupted runs resume by verifying/skipping previously committed seasons. Use `--refresh` only to deliberately retrieve a revised season range; previous generations stay available for `recover-cache`. Required-column errors are actionable; unsupported metrics are never silently filled with zeros. Each new manifest records schemas, null rates, source and retrieval time, hashes, row/game counts, processing version, distribution summaries and completeness. `reports/history_audit/source_audit.json` preserves detailed audits; its CSV provides a compact season summary.
+
+Normal existing M1–M4 commands continue loading **2018–2026 only**. Adding older manifests does not silently change their early-season priors or Elo initialization. `compare-history` explicitly loads the expanded compact schedules/metrics. Raw PBP is not reprocessed for each model. Statistical feature caches are hashed **per season**, with only current/prior-season context; Elo replay uses the compact full schedule. Existing source generations, feature caches and official models are retained.
+
+### Historical time and feature compatibility
+
+The inspected 1999 schedule/PBP sources have no kickoff clock, start_time or time_of_day. A date-only row uses midnight Eastern as a labeled **lower bound** for pregame features and next day 08:00 Eastern as conservative result availability. No actual kickoff time is inferred. These bounds deliberately exclude same-day results. Known-clock rows retain source scheduled times, which are not certified actual play-start timestamps. Historical final-publication times and original source vintages remain unavailable.
+
+Because exact rest is unavailable for date-only rows, all main window experiments use an explicitly labeled common set: original M2 features **minus rest**, plus pregame standard Elo for shallow HGB. Unknown venue remains missing. All windows share the same expanded pregame/Elo history so only the training-label start changes. W1-common is therefore **different from the exact original full-feature reference**. Separate original M2/M4 references preserve their 2018 history and reproduce their original metrics. Never attribute a reference/common feature difference to additional training records.
+
+The original four-game prior and 50% offseason regression remain fixed. 1999 has no 1998 prior, and newly appearing Houston has no pre-2002 team history; league fallback/missing values are explicit. No current-game or future-game statistics enter earlier features. Source EPA is itself a modern retrospective estimate; consistent field names do not establish stable cross-era calibration. Passing production is net eligible pass-play yards (including sacks), not official gross passing yards. Descriptive passing/rushing totals are audited, not added to the fixed feature set. Early source PBP gaps, ties, canceled games and schedule revisions remain visible in the audit.
+
+### Staged experiments and weighting
+
+`config/m5_protocol.json` freezes shallow HGB at M4's selected parameters. Uniform windows are compared on development validation years 2019/2020/2021. The top two windows **per algorithm** receive predefined half-lives of 3, 5 and 8 years; one primary window/weight policy is selected using those development years. No tree, feature-group or prior-weight retuning occurs. 2024–2025 remains repeatedly examined exploratory evidence, never final selection authority.
+
+Weights are `0.5 ** (age_in_years / half_life)`, with age relative to each historical training cutoff and a 365.25-day year. They normalize to mean one, preserving total loss scale within each window at fixed regularization; effective sample size is reported. Larger windows still alter sample size and therefore relative regularization. No rows are duplicated. Logistic uses training-only mean imputation, **weighted StandardScaler and weighted logistic fitting**; HGB receives sample weights directly. Means used for imputation remain unweighted by design. Calibration uses a disjoint intervening season and is evaluated only forward, for development-selected policies. Neither calibration nor weighting variants become official models.
+
+Reports separate three comparisons: `comparison.csv` versus the exact original logistic champion; `within_algorithm.csv` versus same-algorithm W1-common; `decay_effects.csv` versus the **same-window uniform** policy. `vs_original_boosting.csv` compares expanded HGB against the M4 reference, and `elo_warmup.csv` isolates 1999 versus 2018 Elo initialization. `season_phase.csv` provides weeks 1–3 versus later diagnostics without tuning the four-game prior. All compared models use identical evaluation games. Paired week-block intervals are unadjusted exploratory diagnostics; repeated teams, correlated games, few seasons and many comparisons prevent a single favorable interval from establishing superiority.
+
+Model Analysis includes **Historical Training Analysis** with coverage, window/decay comparisons, seasonal accuracy/Brier, calibration, selected experimental policies and limitations. It only reads saved outputs; no training occurs during rendering. M5 registry metadata records window, half-life, cutoff, normalization, effective sample size, algorithm, feature schema, hashes and evaluation. Existing activation/rollback code remains compatible, but explicitly refuses M5 candidates during this milestone.
+
+### Combined native Windows acceptance
+
+On a genuine Windows 10/11 machine with Python 3.12, follow the existing installation instructions and retain your original local data/model/forecast backups. `scripts/windows_acceptance.ps1 -Full` runs the combined command checklist; `scripts/verify_local_acceptance.py` records platform evidence, tests scoring in a **temporary database copy**, and verifies existing model/forecast files are unchanged. It never activates a candidate. A missing original champion, absent caches, skipped upcoming games or incomplete manual UI/RAM checks remain unrun acceptance items. For data processing, run with enough disk space for retained generations and record actual Windows RAM/runtime. Start Streamlit manually and verify all five pages and Historical Training Analysis.
+
+These scripts were provided for later native execution; Linux checks do not certify Windows. See `M5_ENGINEERING_REPORT.md` for actual measured results and outstanding acceptance limitations. Downloaded raw datasets and trained binaries remain ignored by Git; use the CLI to reproduce local caches. M6 is not implemented.

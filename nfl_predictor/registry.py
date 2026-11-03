@@ -51,6 +51,7 @@ def activate(directory,production,decision_file):
         raise ValueError('Activation requires an approved documented decision, named reviewer, rationale, evidence and Windows acceptance')
     model,metadata=load_candidate(directory,decision['candidate_version'])
     if decision['artifact_sha256']!=metadata['artifact_sha256']:raise ValueError('Decision does not match reviewed artifact')
+    if model.get('activation_blocked'):raise ValueError('M5 candidates remain experimental: activation is prohibited during at-risk development')
     if model.get('feature_schema')=='m4-v1':
         from .m4_features import FEATURE_SETS
         from .elo import EloParameters

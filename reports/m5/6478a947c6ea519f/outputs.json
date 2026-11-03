@@ -1,0 +1,22 @@
+{
+  "season_phase.csv": "ba19968c9f334c240d90d5dc8abfc980a93bc1b5adcb8eac0498052a6802be9d",
+  "predictions.parquet": "583ea4590ab70e0c23975d78db45a6b0de93c05cfe6939177d5bed6ac4ab8b2f",
+  "within_algorithm.csv": "eff3d4ccfccbc1b024874536bac8e7771642d7f9747366879e60418105ed6726",
+  "comparison.csv": "651c260cf6e3788821fbb99ef51891e0f4e2654fab2dafc7bf1da0d9e92dcb4f",
+  "registry_versions.json": "6536bc14c8adee995e161e1284260be8c6eefa3dbffebf7f409895b006e5d6a2",
+  "elo_warmup.csv": "f9d0c9d81211fbacb9ab8dbe419f5375356e8db8378cba85d2142d761316e511",
+  "calibration.csv": "ee7941e7946894bef55f4ccd05965197e98f3046911127240961b5d5986c4ab5",
+  "metadata.json": "87628f219441d1806c77f17da9423891a15372be13be4b04584c2e6fc97d2237",
+  "reliability.png": "020e758618f347cd2b46f25a3e0ec84959fbaf1d5176ec16547d12ccad4fed3e",
+  "training_metadata.csv": "a7717fe3b5d954b897269f9821338fc70fe966e26c84c5846e8d6cc507439678",
+  "registry_metadata.json": "eea4b5ce63e8ce577b2c269669a7b6edac392b2aeecb2d1a3f967333d8123d0e",
+  "development_trials.csv": "c6601b91c6a0a9d64cf41a60164d43fed91e359730f5c8b3eb2bc4893003c4e2",
+  "development_decay.csv": "941310bdbe68f0844626016ba2e5e4ba428f69aa3bc3aace0a66a00ba4134c98",
+  "development_windows.csv": "679b82357dd3f8c2e221e1ae8cd02a1565b9098b533a979307ce8413200fa0ab",
+  "confidence_buckets.csv": "bde4d64e70f7fac86ab58c98a8991e7416e36f535846cc6e97af80c0f347c131",
+  "feature_completeness.csv": "d82ecef8a35b718f62c95ccae7afb7427440dc65f3d1f125ab5a0570eed68ebb",
+  "vs_original_boosting.csv": "67057cbc6fd0e96fca4c13ebe0155339a8610fdba844ad3116bee9f8e38c6d6d",
+  "MODEL_COMPARISON.md": "d02a2cfd8621641f8c0c9988522166e2a20ad73359631a91c1e80734d663aa57",
+  "probability_buckets.csv": "bcb4723297045d5c9e92c8e011979051ad1a662826afc527ea9b63f4da1480be",
+  "decay_effects.csv": "4110e031abfab70be15edf55edb9955845a45637edfc2b8e2137f763d3c6d106"
+}
