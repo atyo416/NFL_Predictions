@@ -12,12 +12,12 @@ function Invoke-PythonCheck {
     & $Python @CommandArgs
     if ($LASTEXITCODE -ne 0) { throw "Python acceptance step failed: $($CommandArgs -join ' ')" }
 }
-Invoke-PythonCheck -CommandArgs @('-c', 'import sys; assert sys.platform == "win32"; assert sys.version_info[:2] == (3,12); print(sys.version)')
+Invoke-PythonCheck -CommandArgs @('scripts/windows_preflight.py', 'runtime')
 Invoke-PythonCheck -CommandArgs @('-m', 'pip', 'install', '-r', 'requirements.lock.txt')
 Invoke-PythonCheck -CommandArgs @('-m', 'pip', 'install', '--no-deps', '-e', '.[test]')
 Invoke-PythonCheck -CommandArgs @('-m', 'pytest', '-q')
 Invoke-PythonCheck -CommandArgs @('-m', 'nfl_predictor.cli', '--help')
-Invoke-PythonCheck -CommandArgs @('-c', 'import nfl_predictor, sklearn, streamlit; print("imports passed")')
+Invoke-PythonCheck -CommandArgs @('scripts/windows_preflight.py', 'imports')
 $RunStamp = Get-Date -Format 'yyyyMMddTHHmmssfff'
 $BaselinePath = "reports/local_acceptance/windows-before-$RunStamp.json"
 Invoke-PythonCheck -CommandArgs @('scripts/verify_local_acceptance.py', '--snapshot-only', '--baseline', $BaselinePath)
