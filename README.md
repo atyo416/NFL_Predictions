@@ -78,3 +78,57 @@ Outputs go to `reports/m2/<content-key>/`; `latest.json` selects the dashboard r
 The Model Analysis page includes a download button for incorrect predictions, uncertainty tables, seasonal results, calibration and experiment metadata. Prospective summaries read official forecasts and attached outcomes through read-only SQLite. Use the ordinary M1 refresh/predict workflow to attach verified outcomes; analysis itself does not modify forecasts or outcomes.
 
 See [M2_ENGINEERING_REPORT.md](M2_ENGINEERING_REPORT.md), [data/leakage audit](docs/m2/DATA_LEAKAGE_AUDIT.md), and the generated reports. Neither exact historical publication timestamps nor original source vintages are available. Native Windows verification remains outstanding; all claimed execution checks were performed on Linux.
+
+## M3: dynamic ratings and matchup context
+
+M3 extends M2 with **experimental** Elo ratings, explicit schedule rest/bye features and a conservative QB evidence layer. The official M2 champion and saved SQLite forecast payloads remain unchanged.
+
+With your existing virtual environment active and season data cached:
+
+```powershell
+python -m pytest -q
+python -m nfl_predictor.cli ratings
+python -m nfl_predictor.cli rankings
+python -m nfl_predictor.cli compare-m3
+python -m nfl_predictor.cli report-m3
+python -m streamlit run app.py
+```
+
+`ratings` builds an immutable pregame/postgame history and all-32-team rankings. `rankings` is an alias that also prints the table. Both export Parquet and CSV to `data/ratings/<key>/`; `latest.json` selects the dashboard snapshot. A historical snapshot can be generated with `ratings --cutoff 2025-11-01T12:00:00-04:00`. The cutoff is timezone-aware; completed results enter only strictly before it. The seven-day prior snapshot determines previous-week ranks and weekly changes. These can include offseason regression if the interval crosses a season boundary.
+
+Default Elo: initial 1500, logistic scale 400, K=20, home adjustment 50 (zero at neutral sites), offseason retention 0.67. Updates are equal and opposite, use the pregame expectation, and treat ties as half a win. First-source-season ratings are initialized without earlier history and are marked warmup. Kickoff snapshots precede equal-time eligible results. No postseason updates occur. Conflicting duplicate game results raise an error instead of double-counting. Exact duplicates are harmless.
+
+`compare-m3` evaluates standard and margin Elo, M2+Elo, explicit rest/bye models and combinations against the original M2 logistic benchmark and baselines on identical games. It reuses M2's chronological folds and paired season-week uncertainty. `config/m3_protocol.json` freezes parameters; use `--protocol PATH` for a documented alternative. No automatic champion promotion occurs. Margin Elo caps both the margin input (42 points) and update multiplier (0.5–3), with a pregame winner-advantage correction; it remains experimental. Separate files compare Elo variants directly and against the pregame win-percentage baseline.
+
+Rest days refer to target scheduled kickoff minus the latest eligible played kickoff in the same season. Missing previous games remain missing. Short rest is less than six days, extended rest more than ten days without an identified bye. Bye identification uses the **season schedule**, not elapsed rest alone: at least 16 team games, exactly one absent week in weeks 4–14, and the immediately following game week. Incomplete or ambiguous schedules remain unknown. Historical schedule revisions, extraordinary bye weeks and suspended games limit certainty. Individual indicators, joint features, an old-rest redundancy control, initialization sensitivity and descriptive post-bye results are exported. Joint rest models replace the old rest feature; none is automatically deployed.
+
+### Quarterback data
+
+Optional source refresh (Internet required):
+
+```powershell
+python -m nfl_predictor.cli update-qb --seasons 2024 2026
+```
+
+Raw depth charts, injuries and rosters are retained with source hashes/timestamps. Weekly historical depth charts and current timestamped snapshots have different schemas. Neither is automatically promoted to a verified pregame starter designation. Actual completed-game QB IDs provide only already-observed prior starters; they cannot identify that same game's pregame starter. No injury report means **unknown**, never healthy. Unverified/stale candidates are displayed explicitly as such. The inspected 2026 depth snapshots end in March, so they are stale for the November data snapshot.
+
+If you possess independent timestamped pregame evidence, `import-qb --qb-file PATH` accepts a JSON list with these fields:
+
+```json
+[{
+  "team": "LV", "player_id": "GSIS player identifier", "name": "Player name",
+  "source": "Name and reference of independently reviewed report",
+  "source_at": "2026-11-01T10:00:00-05:00", "observed_at": "2026-11-01T10:05:00-05:00",
+  "classification": "verified_pregame", "availability_status": "unknown",
+  "designation": "candidate", "game_id": "exact nflverse game ID", "season": 2026, "week": 9,
+  "quality": "independently reviewed pregame evidence"
+}]
+```
+
+This is a schema illustration, not a real designation. Supply actual evidence and IDs. `designation` must be `candidate` or `confirmed_starter`; timezone-aware source and observation timestamps must both precede the target cutoff, and observations cannot be future-dated. The software validates structure/timing, not the truth of supplied evidence. Retain the original report. Refreshes preserve imported verified evidence. Historical QB experiments require sufficient verified records for both teams and a known prior starter, and compare only matched samples. The inspected data does not satisfy that requirement; no QB improvement is claimed.
+
+### Dashboard and reports
+
+Team Power Rankings shows ratings, records, seven-day changes and history plotted at **result eligibility**, never before kickoff. It also exposes M3 comparisons, calibration and coverage. Team Comparison adds venue-specific Elo probability, rating differential, explicit rest/bye context and verified QB context for an actual scheduled matchup. These experimental displays never log official forecasts. Generate the snapshots/reports first; no background network work occurs on page load.
+
+`report-m3` generates `M3_ENGINEERING_REPORT.md` from measured outputs and available verification evidence. Results live separately in `reports/m3/<key>/` with metadata and output checksums. Old M1/M2 reports are preserved. No native Windows execution has been verified; PowerShell commands follow the existing installation steps. Historical final-publication timestamps, source vintages and adequate historical pregame QB evidence remain unresolved. See the M3 engineering report for measured comparisons and the promotion decision. M4 is not implemented.

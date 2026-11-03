@@ -1,0 +1,15 @@
+{
+  "predictions.parquet": "617ec3185f8d7ac483d3db504c36c4b5cd5a82aa2e770a26ae21064580d73b3c",
+  "comparison.csv": "5c09d45e5dfbcfc839c28c31a688eb5c10381e7fc33d21c714c6515d59c57a09",
+  "warmup_sensitivity.csv": "9c40bd0771d902d1ef3cf1d095c423ba86a666e03b77803784811658c3d3af81",
+  "elo_vs_win_percentage.csv": "0e3cb3b446b8a0c9e2883025478f5a8ac89617f2f94d275b223c2a4c2617e129",
+  "feature_missingness.csv": "625536f8694a1e5cd9eb2f3e87ccaacf5afcbfa68e8ada04d66258842ed40403",
+  "calibration.csv": "a75ed017d7d63be708bfd3825cd5310221812ed5e1b1ceda1d9b7f77412a21c6",
+  "coefficients.csv": "cb67e36af3acefa53d531c3445aa6d6ee4eaa1da711fcb75680f4cdbbdcff17d",
+  "post_bye_diagnostic.csv": "f1938a9d6c0d7c8c4b1873e70b47043f6ebafa805f25e2085c5474fca77b9134",
+  "metadata.json": "e7835d678e4b56fe89cdeb2fcec179dc1bcfb1182b9842edcda54dfda7aa22ec",
+  "reliability.png": "2612b0b8e490645f5f83afbbdd0a4bbb70e5d4403e845aff0288e3967e92f5ec",
+  "elo_variant_comparison.csv": "482e483c60e94b7ef99607884f8d9d994a5d52b756f3341a1fa017161fe41125",
+  "MODEL_COMPARISON.md": "1736e4d9185aece1a7c5cbb03aeb992a233669f40f8406ed7555e3a50c87fa88",
+  "probability_buckets.csv": "0fd1a8c51defc702f0c7973dffce6b5293ae5f0b46c62cf38fdf83a8f46844af"
+}

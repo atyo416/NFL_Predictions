@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "label": "M3 exploratory dynamic ratings; 2024–2025 previously examined",
+  "folds": [
+    {"train_start": 2018, "train_end": 2020, "calibration": 2021, "evaluation": 2022},
+    {"train_start": 2018, "train_end": 2021, "calibration": 2022, "evaluation": 2023},
+    {"train_start": 2018, "train_end": 2022, "calibration": 2023, "evaluation": 2024},
+    {"train_start": 2018, "train_end": 2022, "calibration": 2023, "evaluation": 2025}
+  ],
+  "bootstrap_replicates": 2000,
+  "seed": 42,
+  "confidence_level": 0.95,
+  "elo": {"initial": 1500.0, "scale": 400.0, "k": 20.0, "home_advantage": 50.0, "regression": 0.67, "margin": false},
+  "short_rest_days": 6.0,
+  "extended_rest_days": 10.0,
+  "champion": "logistic",
+  "promotion": "Retain M2 champion; no automatic promotion or uncontrolled tuning."
+}

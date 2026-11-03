@@ -10,7 +10,7 @@ from .database import connect,attach_results
 from .predictions import predict
 
 def main():
-    p=argparse.ArgumentParser(); p.add_argument('command',choices=['update','features','train','backtest','predict','analyze','recover-cache']); p.add_argument('--seasons',nargs='+',type=int); p.add_argument('--refresh',action='store_true'); p.add_argument('--cutoff'); p.add_argument('--protocol',default=str(ROOT/'config/m2_protocol.json'));  a=p.parse_args()
+    p=argparse.ArgumentParser(); p.add_argument('command',choices=['update','features','train','backtest','predict','analyze','recover-cache','ratings','rankings','compare-m3','report-m3','update-qb','import-qb']); p.add_argument('--seasons',nargs='+',type=int); p.add_argument('--refresh',action='store_true'); p.add_argument('--cutoff'); p.add_argument('--protocol'); p.add_argument('--qb-file');  a=p.parse_args()
     if a.command=='update':
         update(a.seasons or range(2018,2027),a.refresh); return
     if a.command=='recover-cache':
@@ -18,7 +18,35 @@ def main():
         if not a.seasons: p.error('recover-cache requires --seasons')
         for year in a.seasons: print(recover(DATA,year)['generation'])
         return
+    if a.command=='update-qb':
+        from .quarterbacks import update_sources
+        print(update_sources(DATA,a.seasons or [2024,2026])); return
+    if a.command=='import-qb':
+        from .quarterbacks import import_verified
+        if not a.qb_file: p.error('import-qb requires --qb-file (reviewed evidence JSON)')
+        print(import_verified(a.qb_file,DATA)); return
     schedules,metrics=cached()
+    if a.command in ['ratings','rankings','compare-m3','report-m3']:
+        from pathlib import Path
+        from .m3 import ratings_bundle,prepare,compare
+        from .elo import EloParameters
+        from .quarterbacks import cached_context
+        config=json.loads(Path(a.protocol or ROOT/'config/m3_protocol.json').read_text())
+        source_metadata={p.stem:json.loads(p.read_text()) for p in (DATA/'manifests').glob('*.json')}
+        if a.command in ['ratings','rankings']:
+            cutoff=pd.Timestamp(a.cutoff) if a.cutoff else pd.Timestamp.now(tz='UTC')
+            result=ratings_bundle(schedules,DATA/'ratings',cutoff,EloParameters(**config['elo']),source_metadata)
+            print(pd.read_parquet(result/'rankings.parquet').to_string(index=False));print(result);return
+        records=cached_context(DATA/'qb_context')
+        qb_pointer=DATA/'qb_context/latest.json'
+        if qb_pointer.exists(): source_metadata['qb_context']=json.loads(qb_pointer.read_text())
+        frame=prepare(schedules,metrics,records,config,DATA/'features')
+        result=compare(frame,ROOT/'reports/m3',config,source_metadata)
+        print(result)
+        if a.command=='report-m3':
+            from .m3_report import engineering_report
+            engineering_report(result,ROOT)
+        return
     if a.command=='predict':
         db=connect(DATA/'predictions.db'); attach_results(db,schedules)
         print(predict(schedules,metrics,load(ROOT/'models/production.joblib'),db,a.cutoff).to_string(index=False)); db.close(); return
@@ -26,7 +54,7 @@ def main():
     if a.command=='analyze':
         from .analysis import run_analysis
         source_metadata={p.stem:json.loads(p.read_text()) for p in (DATA/'manifests').glob('*.json')}
-        print(run_analysis(f,ROOT/'reports/m2',json.loads(__import__('pathlib').Path(a.protocol).read_text()),source_metadata))
+        print(run_analysis(f,ROOT/'reports/m2',json.loads(__import__('pathlib').Path(a.protocol or ROOT/'config/m2_protocol.json').read_text()),source_metadata))
         return
     if a.command=='features':
         atomic_parquet(f,DATA/'processed/features.parquet')

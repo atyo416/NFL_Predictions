@@ -12,7 +12,7 @@ def predict(schedules,metrics,model,db,cutoff=None):
     if not len(upcoming):
         return pd.DataFrame()
     # Preserve all history when computing only upcoming feature rows.
-    f=build(schedules,metrics,cutoff)
+    f=build(schedules,metrics,cutoff,game_ids=upcoming.game_id)
     f=f[f.game_id.isin(upcoming.game_id)]
     if pd.Timestamp(model['training_cutoff']) >= cutoff:
         raise ValueError('Model training cutoff must precede prediction cutoff')

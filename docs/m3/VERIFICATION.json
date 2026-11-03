@@ -1,0 +1,58 @@
+{
+  "recorded_at": "2026-11-03T05:25:36.411811+00:00",
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "python": "3.12.14",
+  "native_windows": "not verified",
+  "baseline_tests_passed": 36,
+  "final_tests_passed": 62,
+  "test_command": "python -m pytest -q",
+  "dependency_warnings": 2,
+  "preserved_m2_artifact_hashes_verified": 128,
+  "champion_and_database_unchanged": true,
+  "dashboard_pages_passed": [
+    "Upcoming Games",
+    "Team Comparison",
+    "Model Performance",
+    "Model Analysis",
+    "Team Power Rankings"
+  ],
+  "real_scheduled_matchup_checked": "2026_09_JAX_BAL",
+  "real_matchup_checks": [
+    "champion probability",
+    "Elo-only probability",
+    "rest/bye fields",
+    "QB context"
+  ],
+  "performance": {
+    "elo_replay_games": 2399,
+    "elo_eligible_updates": 2248,
+    "elo_replay_seconds": 0.38605477099963537
+  },
+  "module_hashes": {
+    "m3_dashboard.py": "5351a7f3c795b59a7205b25aeb959df19b4c5a025addaa3859caa7bf07812632",
+    "schedule_features.py": "9729eeb3858191e1c89adf8e6c3f2a4e251268fa993fd4b9e93deb1f791001dd",
+    "model.py": "1b8f73c4803e1fcb311bf13ee17f3c5a2a52b7c49cb0f70a62439ed205a10f2b",
+    "m3.py": "42d8fd33f580e6eb182a5888192da4399f54edf1ae441f9cf873d76a257f68c0",
+    "elo.py": "97bf2249618d43d21ab07d7c5437c4cb3371cc0bb5d6269504aa5db7754c5451",
+    "reporting.py": "185fddd2facda141021a56a55dd0ad31707e61447f705a3edf6b90268975371b",
+    "cli.py": "206d3471d558b995eac9f22709eaf7fc5afc269890fbf09d627659dbab47a563",
+    "data_loader.py": "969330217a55698f53c1dd16fd4be72cb4b8fb62c60b562a4be94f9a60f9a2ad",
+    "backtest.py": "8d177789ebefadee6faad10b98b88e6c60df9db3023b3d41e9ff7aaed76d80d9",
+    "database.py": "0702742af2c55912ea929f86d94fc57274aa1a3375c86affc0693559aafb76ca",
+    "predictions.py": "463fcfd652b8c12c4556d48a742d07b588c9a53ad92e3a75226977f818bdfb58",
+    "__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evaluation.py": "8a2dc24b652bc7e7e83fa8d26b973352403408cb7b1aa9ab0549e6b186daccd3",
+    "m3_report.py": "19bd0681bbfe85de698834e53d61ffbd430918a112cc80f552f28ee0fae0274e",
+    "feature_engineering.py": "f35d57068ac65d83c28e9f8902fa44d1e453e04b26d23f99bddc34310625f044",
+    "quarterbacks.py": "bbf4cafb6c8e18e553a1c559f19a58958df636e0a198beac5e981b726c1ebc59",
+    "analysis.py": "6d9588137f1ca80f758c83aa53c1824604bccc054216a9a513dc5a1254b271a3",
+    "integrity.py": "29115341b9af63c6516d3588c68df5209c4b11c84e1d0287d6f43b950f8f8f78",
+    "dashboard.py": "957dd6e4a6409a82606b923c459d30b2c9344c9af4e1b1251b53efd96828bb38",
+    "data_validation.py": "92049d2d37fcf1869457b3f7b91c4a136f877a7f6852eaece18509be09b584ac"
+  },
+  "test_file_hashes": {
+    "test_m2.py": "2fb65d03af4d252ded29a6ff1624a9b120511b281f38dc66845cdc7702ff56e4",
+    "test_m3.py": "bcf4e819ef0343e0052a5172bdaa6443014020ea058b47975c44bf61e066cf9f",
+    "test_engine.py": "d8288426b53285d33a94e22018733a9200970c1c6da8a77009ba99fefd56a6e4"
+  }
+}

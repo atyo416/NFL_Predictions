@@ -53,10 +53,11 @@ def rating(history, team, season, cutoff, prior_weight=4., regression=.5):
     result['rest'] = (cutoff-past.iloc[-1].kickoff).total_seconds()/86400 if len(past) else np.nan
     return result
 
-def build(schedules, metrics, cutoff=None):
+def build(schedules, metrics, cutoff=None, game_ids=None):
     history = team_games(schedules, metrics)
     rows = []
-    for g in schedules.sort_values('kickoff').itertuples():
+    targets=schedules if game_ids is None else schedules[schedules.game_id.isin(game_ids)]
+    for g in targets.sort_values('kickoff').itertuples():
         at = min(g.kickoff, pd.Timestamp(cutoff)) if cutoff is not None else g.kickoff
         home = rating(history,g.home_team,g.season,at)
         away = rating(history,g.away_team,g.season,at)

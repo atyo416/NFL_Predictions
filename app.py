@@ -8,9 +8,9 @@ from nfl_predictor.model import load
 from nfl_predictor.predictions import predict
 from nfl_predictor.database import connect,attach_results
 st.set_page_config(page_title='NFL Prediction Engine',layout='wide')
-st.title('NFL Game Prediction Engine · M2')
+st.title('NFL Game Prediction Engine · M3')
 st.caption('Experimental statistical baseline. Probabilities are not claimed to be calibrated.')
-page=st.sidebar.radio('Page',['Upcoming Games','Team Comparison','Model Performance','Model Analysis'])
+page=st.sidebar.radio('Page',['Upcoming Games','Team Comparison','Model Performance','Model Analysis','Team Power Rankings'])
 try:
     schedules,metrics=cached()
 except Exception as exc:
@@ -54,12 +54,19 @@ elif page=='Team Comparison':
     st.dataframe(pd.DataFrame({a:rating(history,a,2026,cutoff),b:rating(history,b,2026,cutoff)}))
     matches=schedules[((schedules.home_team.eq(a)&schedules.away_team.eq(b))|(schedules.home_team.eq(b)&schedules.away_team.eq(a)))&schedules.season.eq(2026)&schedules.kickoff.gt(cutoff)]
     st.caption('Only actual scheduled matchups are supported. Hypothetical forecasts would require an explicit venue and cutoff and cannot be official.')
-    if len(matches) and model:
+    selected=None
+    if len(matches):
         selected=st.selectbox('Scheduled game',matches.game_id)
-        from nfl_predictor.feature_engineering import build,FEATURES
-        f=build(schedules,metrics,cutoff); f=f[f.game_id.eq(selected)]
-        p=model['pipeline'].predict_proba(f[FEATURES])[0,1]
-        st.write(f'Home win probability: {p:.1%}; away: {1-p:.1%}')
+        if model:
+            from nfl_predictor.feature_engineering import build,FEATURES
+            f=build(schedules,metrics,cutoff,game_ids=[selected])
+            p=model['pipeline'].predict_proba(f[FEATURES])[0,1]
+            st.write(f'Official champion model estimate (not a saved forecast): home {p:.1%}; away {1-p:.1%}')
+    from nfl_predictor.m3_dashboard import render_matchup
+    render_matchup(schedules,DATA,a,b,selected)
+elif page=='Team Power Rankings':
+    from nfl_predictor.m3_dashboard import render_rankings
+    render_rankings(DATA,ROOT/'reports')
 elif page=='Model Analysis':
     from nfl_predictor.dashboard import render
     render(ROOT/'reports/m2', DATA/'predictions.db')
