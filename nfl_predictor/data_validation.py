@@ -11,4 +11,8 @@ def coverage(schedules,metrics):
     missing=sorted(set(missing))
     if missing:
         warnings.warn(f'Missing eligible play-by-play metrics for {len(missing)} games: {missing[:10]}; refresh source. Metrics remain NaN.',stacklevel=2)
+    if 'off_plays' in metrics:
+        low = metrics[metrics.off_plays.lt(40)]
+        if len(low):
+            warnings.warn(f'{len(low)} team-games have fewer than 40 eligible scrimmage plays; review for partial play-by-play (not proof of incompleteness).',stacklevel=2)
     return {'missing_metric_games':missing,'regular_season_games':len(schedules),'completed_games':int(schedules.completed.sum())}

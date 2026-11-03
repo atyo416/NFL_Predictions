@@ -20,6 +20,15 @@ def team_games(schedules, metrics):
     out = pd.concat(rows).merge(metrics, on=['game_id','team'], how='left', validate='one_to_one')
     out['turnover'] = out.def_turnovers - out.off_turnovers
     out['available_at'] = out.kickoff + pd.Timedelta(hours=8)
+    if 'result_available_at' in completed:
+        explicit = completed.set_index('game_id')['result_available_at']
+        times = pd.to_datetime(out.game_id.map(explicit),utc=True,errors='raise')
+        if (times.notna() & times.lt(out.kickoff)).any():
+            raise ValueError('Result availability precedes kickoff')
+        out['available_at'] = times.fillna(out.available_at)
+    if 'status' in completed:
+        blocked = completed.set_index('game_id').status.astype(str).str.lower().isin(['postponed','suspended','in progress','in_progress','canceled','cancelled'])
+        out.loc[out.game_id.map(blocked).fillna(False),'available_at'] = pd.NaT
     return out
 
 def rating(history, team, season, cutoff, prior_weight=4., regression=.5):
@@ -60,3 +69,28 @@ def build(schedules, metrics, cutoff=None):
             row[key] = (home[key]-away[key]) * (-1 if key in LOWER_BETTER else 1)
         rows.append(row)
     return pd.DataFrame(rows)
+
+
+def cached_build(schedules, metrics, directory, refresh=False):
+    """Content + feature-code keyed historical features; never used for live cutoffs."""
+    import hashlib
+    from pathlib import Path
+    from .data_loader import atomic_parquet
+    directory = Path(directory)
+    h = hashlib.sha256(Path(__file__).read_bytes())
+    for frame in [schedules,metrics]:
+        h.update(str(list(frame.dtypes.astype(str))).encode())
+        h.update(str(list(frame.columns)).encode())
+        h.update(pd.util.hash_pandas_object(frame,index=False).values.tobytes())
+    path = directory/f'features-{h.hexdigest()}.parquet'
+    from .integrity import digest,atomic_json
+    import json
+    manifest=path.with_suffix('.json')
+    if path.exists() and not refresh:
+        if not manifest.exists() or json.loads(manifest.read_text())['sha256']!=digest(path):
+            raise ValueError('Feature cache corruption; run features --refresh to rebuild')
+        return pd.read_parquet(path)
+    frame = build(schedules,metrics)
+    atomic_parquet(frame,path)
+    atomic_json({'sha256':digest(path),'input_and_code_key':h.hexdigest()},manifest)
+    return frame

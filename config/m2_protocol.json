@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "label": "M2 exploratory chronological protocol; M1 2024–2025 already examined",
+  "folds": [
+    {"train_start": 2018, "train_end": 2020, "calibration": 2021, "evaluation": 2022},
+    {"train_start": 2018, "train_end": 2021, "calibration": 2022, "evaluation": 2023},
+    {"train_start": 2018, "train_end": 2022, "calibration": 2023, "evaluation": 2024},
+    {"train_start": 2018, "train_end": 2022, "calibration": 2023, "evaluation": 2025}
+  ],
+  "bootstrap_replicates": 2000,
+  "seed": 42,
+  "confidence_level": 0.95,
+  "isotonic_min_games": 200,
+  "champion": "logistic",
+  "promotion": "No automatic promotion; reserve a future period not inspected during development."
+}

@@ -1,0 +1,11 @@
+{
+  "reports/backtest.json": "3cdb2d103d499491fc757e79e1f3496acab756b9ebf16bb85313b9409f0161c2",
+  "reports/validation_calibration.csv": "2a851778d9a51b0bf632bbed229075046e80998a27e4003070bc7cdcf5f9e202",
+  "reports/test_calibration.csv": "03f2b77dbe984513b17e6adc261ba4c9d419ba94d92f21149483b3f1de171c0f",
+  "reports/test_confidence.csv": "f3df46cffc4147f3e5c90460ca8d130af571398b4b92153e8549ee41caa27b8a",
+  "reports/historical_predictions.parquet": "8a03ccd916c2fbe19ca26890c4f936166f80b7aa94c4c79c6e40b80f6198bb0e",
+  "reports/reliability.png": "1b65f534759c4c28e13489cfc193077731befa43fb94100f42809f731e3bb115",
+  "reports/validation_confidence.csv": "591bbac8b574596feb960f9e59e99644fc9d61bd669472e6f4358e5fdb9bdba1",
+  "data/predictions.db": "3a56d523b930a4aa0ed40bcdb07c74bd0ffa74527d7bd9576b0260ffe6dc4ebd",
+  "models/production.joblib": "34031d18cb2a1e94a511f11061070ebda07eb95491e34f0e9a70f2709a8370a8"
+}

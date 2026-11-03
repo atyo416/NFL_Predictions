@@ -8,14 +8,16 @@ from nfl_predictor.model import load
 from nfl_predictor.predictions import predict
 from nfl_predictor.database import connect,attach_results
 st.set_page_config(page_title='NFL Prediction Engine',layout='wide')
-st.title('NFL Game Prediction Engine · M1')
+st.title('NFL Game Prediction Engine · M2')
 st.caption('Experimental statistical baseline. Probabilities are not claimed to be calibrated.')
-page=st.sidebar.radio('Page',['Upcoming Games','Team Comparison','Model Performance'])
+page=st.sidebar.radio('Page',['Upcoming Games','Team Comparison','Model Performance','Model Analysis'])
 try:
     schedules,metrics=cached()
 except Exception as exc:
     st.warning(str(exc)); st.code('python -m nfl_predictor.cli update'); st.stop()
-metadata=sorted((DATA/'processed').glob('metadata_*.json'))
+metadata=sorted((DATA/'manifests').glob('*.json')) or sorted((DATA/'processed').glob('metadata_*.json'))
+current_metadata=[p for p in metadata if '2026' in p.name]
+if current_metadata: metadata=current_metadata
 if metadata:
     stamp=max(json.loads(p.read_text())['retrieved_at'] for p in metadata)
     st.caption('Last source retrieval: '+stamp)
@@ -58,6 +60,9 @@ elif page=='Team Comparison':
         f=build(schedules,metrics,cutoff); f=f[f.game_id.eq(selected)]
         p=model['pipeline'].predict_proba(f[FEATURES])[0,1]
         st.write(f'Home win probability: {p:.1%}; away: {1-p:.1%}')
+elif page=='Model Analysis':
+    from nfl_predictor.dashboard import render
+    render(ROOT/'reports/m2', DATA/'predictions.db')
 else:
     st.info('Historical backtests are retrospective simulations, distinct from forecasts saved before kickoff.')
     path=ROOT/'reports/backtest.json'

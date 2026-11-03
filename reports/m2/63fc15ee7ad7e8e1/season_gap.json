@@ -1,0 +1,8 @@
+{
+  "accuracy_2024": 0.6838235294117647,
+  "accuracy_2025": 0.6051660516605166,
+  "difference_2024_minus_2025": 0.0786574777512481,
+  "low": 0.006147880214335709,
+  "high": 0.15075649704964988,
+  "method": "Independent within-season week-block percentile bootstrap; descriptive 95% interval, two seasons only"
+}
