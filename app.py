@@ -8,7 +8,7 @@ from nfl_predictor.model import load
 from nfl_predictor.predictions import predict
 from nfl_predictor.database import connect,attach_results
 st.set_page_config(page_title='NFL Prediction Engine',layout='wide')
-st.title('NFL Game Prediction Engine · M3')
+st.title('NFL Game Prediction Engine · M4')
 st.caption('Experimental statistical baseline. Probabilities are not claimed to be calibrated.')
 page=st.sidebar.radio('Page',['Upcoming Games','Team Comparison','Model Performance','Model Analysis','Team Power Rankings'])
 try:
@@ -59,8 +59,12 @@ elif page=='Team Comparison':
         selected=st.selectbox('Scheduled game',matches.game_id)
         if model:
             from nfl_predictor.feature_engineering import build,FEATURES
-            f=build(schedules,metrics,cutoff,game_ids=[selected])
-            p=model['pipeline'].predict_proba(f[FEATURES])[0,1]
+            if model.get('feature_schema')=='m4-v1':
+                from nfl_predictor.m4_features import prepare
+                f=prepare(schedules,metrics,model['feature_config'],cutoff=cutoff,game_ids=[selected])
+            else:
+                f=build(schedules,metrics,cutoff,game_ids=[selected])
+            p=model['pipeline'].predict_proba(f[model.get('features',FEATURES)])[0,1]
             st.write(f'Official champion model estimate (not a saved forecast): home {p:.1%}; away {1-p:.1%}')
     from nfl_predictor.m3_dashboard import render_matchup
     render_matchup(schedules,DATA,a,b,selected)
@@ -70,6 +74,8 @@ elif page=='Team Power Rankings':
 elif page=='Model Analysis':
     from nfl_predictor.dashboard import render
     render(ROOT/'reports/m2', DATA/'predictions.db')
+    from nfl_predictor.m4_dashboard import render as render_m4
+    render_m4(ROOT/'reports/m4')
 else:
     st.info('Historical backtests are retrospective simulations, distinct from forecasts saved before kickoff.')
     path=ROOT/'reports/backtest.json'

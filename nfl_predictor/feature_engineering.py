@@ -53,7 +53,7 @@ def rating(history, team, season, cutoff, prior_weight=4., regression=.5):
     result['rest'] = (cutoff-past.iloc[-1].kickoff).total_seconds()/86400 if len(past) else np.nan
     return result
 
-def build(schedules, metrics, cutoff=None, game_ids=None):
+def build(schedules, metrics, cutoff=None, game_ids=None, include_team_ratings=False):
     history = team_games(schedules, metrics)
     rows = []
     targets=schedules if game_ids is None else schedules[schedules.game_id.isin(game_ids)]
@@ -64,6 +64,9 @@ def build(schedules, metrics, cutoff=None, game_ids=None):
         row = g._asdict()
         row.pop('Index',None)
         row['data_cutoff'] = at
+        if include_team_ratings:
+            for side,values in [('home',home),('away',away)]:
+                row.update({side+'_rating_'+name:value for name,value in values.items()})
         for key in FEATURES:
             if key == 'neutral':
                 continue

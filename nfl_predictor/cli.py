@@ -10,7 +10,7 @@ from .database import connect,attach_results
 from .predictions import predict
 
 def main():
-    p=argparse.ArgumentParser(); p.add_argument('command',choices=['update','features','train','backtest','predict','analyze','recover-cache','ratings','rankings','compare-m3','report-m3','update-qb','import-qb']); p.add_argument('--seasons',nargs='+',type=int); p.add_argument('--refresh',action='store_true'); p.add_argument('--cutoff'); p.add_argument('--protocol'); p.add_argument('--qb-file');  a=p.parse_args()
+    p=argparse.ArgumentParser(); p.add_argument('command',choices=['update','features','train','backtest','predict','analyze','recover-cache','ratings','rankings','compare-m3','report-m3','update-qb','import-qb','train-m4','compare-m4','report-m4','activate-model','rollback-model']); p.add_argument('--seasons',nargs='+',type=int); p.add_argument('--refresh',action='store_true'); p.add_argument('--cutoff'); p.add_argument('--protocol'); p.add_argument('--qb-file'); p.add_argument('--decision-file'); p.add_argument('--event-id');  a=p.parse_args()
     if a.command=='update':
         update(a.seasons or range(2018,2027),a.refresh); return
     if a.command=='recover-cache':
@@ -25,7 +25,29 @@ def main():
         from .quarterbacks import import_verified
         if not a.qb_file: p.error('import-qb requires --qb-file (reviewed evidence JSON)')
         print(import_verified(a.qb_file,DATA)); return
+    if a.command=='activate-model':
+        from .registry import activate
+        if not a.decision_file: p.error('activate-model requires --decision-file')
+        print(activate(ROOT/'models/registry',ROOT/'models/production.joblib',a.decision_file)); return
+    if a.command=='rollback-model':
+        from .registry import rollback
+        if not a.event_id: p.error('rollback-model requires --event-id')
+        print(rollback(ROOT/'models/registry',ROOT/'models/production.joblib',a.event_id)); return
     schedules,metrics=cached()
+    if a.command in ['train-m4','compare-m4','report-m4']:
+        from pathlib import Path
+        from .m4_features import prepare as prepare_m4
+        from .m4 import run as run_m4
+        config=json.loads(Path(a.protocol or ROOT/'config/m4_protocol.json').read_text())
+        if a.refresh: config['rebuild_revision']=datetime.now(timezone.utc).isoformat()
+        source_metadata={p.stem:json.loads(p.read_text()) for p in (DATA/'manifests').glob('*.json')}
+        frame=prepare_m4(schedules,metrics,config,DATA/'features')
+        result=run_m4(frame,ROOT/'reports/m4',ROOT/'models/registry',config,source_metadata)
+        print(result)
+        if a.command=='report-m4':
+            from .m4_report import engineering_report
+            print(engineering_report(result,ROOT))
+        return
     if a.command in ['ratings','rankings','compare-m3','report-m3']:
         from pathlib import Path
         from .m3 import ratings_bundle,prepare,compare

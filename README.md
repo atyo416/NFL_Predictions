@@ -132,3 +132,59 @@ This is a schema illustration, not a real designation. Supply actual evidence an
 Team Power Rankings shows ratings, records, seven-day changes and history plotted at **result eligibility**, never before kickoff. It also exposes M3 comparisons, calibration and coverage. Team Comparison adds venue-specific Elo probability, rating differential, explicit rest/bye context and verified QB context for an actual scheduled matchup. These experimental displays never log official forecasts. Generate the snapshots/reports first; no background network work occurs on page load.
 
 `report-m3` generates `M3_ENGINEERING_REPORT.md` from measured outputs and available verification evidence. Results live separately in `reports/m3/<key>/` with metadata and output checksums. Old M1/M2 reports are preserved. No native Windows execution has been verified; PowerShell commands follow the existing installation steps. Historical final-publication timestamps, source vintages and adequate historical pregame QB evidence remain unresolved. See the M3 engineering report for measured comparisons and the promotion decision. M4 is not implemented.
+
+## M4: controlled nonlinear model experiments
+
+M4 adds CPU-only sklearn histogram gradient boosting, controlled chronological selection, calibration, permutation diagnostics, and an additive candidate registry. It **retains the M2 logistic champion** and preserves M3 Elo, QB context, ratings and immutable official forecasts. Native Windows acceptance is still pending.
+
+With your existing virtual environment active (no new dependencies required):
+
+```powershell
+python -m pytest -q
+python -m nfl_predictor.cli train-m4
+python -m nfl_predictor.cli compare-m4
+python -m nfl_predictor.cli report-m4
+python -m streamlit run app.py
+```
+
+The three M4 commands share one staged experiment pipeline: development selection, candidate fitting/registration and forward comparisons. `train-m4` therefore also produces comparison artifacts. Repeated identical calls validate and reuse the completed run. Training occurs only through explicit CLI commands, never while rendering Streamlit. `report-m4` additionally generates `M4_ENGINEERING_REPORT.md`. Source seasons must already be cached; these commands do not refresh or repeatedly reprocess raw PBP. Matchup features have a separate content/code/checksum cache.
+
+`config/m4_protocol.json` freezes four conservative configurations before results are examined: learning rates .05/.1, depths 2/3/4, leaf limits 4/7/15, 100 iterations, minimum leaf size 20 and L2=1. Random state is 42. Internal early stopping is **disabled**; no shuffled internal validation is used. Native NaN handling is fitted on training rows without tree scaling or imputation. Fit/scoring wrappers cap CPU threads (default two), including serialized/reloaded models. A GPU is neither used nor required. Optional XGBoost was not installed or evaluated; its additional native dependency and Windows acceptance are deferred, rather than blocking sklearn comparisons. This is not a claim that an XGBoost installation attempt failed.
+
+Development folds train 2018→validate 2019, train 2018–2019→validate 2020 and train 2018–2020→validate 2021. Selection minimizes equal-season validation Brier, then log loss, then configuration name; accuracy is not optimized. The code prevents M4 selection using seasons after 2021. Hyperparameter selection never uses 2024–2025 outcomes. The existing forward folds retain their separate base/calibration/evaluation periods. The first calibration year is also 2021 development data, so it is not independent evidence for choosing a calibration method. All calibration performance is scored on strictly later games.
+
+Candidate comparisons include original logistic, logistic+Elo, standard/margin Elo, pregame win percentage, historical home rate, all four boosting configurations, the development-selected model, selected features and sigmoid/isotonic variants. Feature sets test M2 alone, standard Elo differential, margin Elo differential, venue-adjusted relative strength probability, explicit M3 rest/bye replacement and six controlled interactions. Team-perspective EPA/success features are computed with the original chronological rating function; they are not reconstructed from matchup differences. Historical QB data is excluded from the main comparison because verified pregame coverage remains insufficient. M3's evidence layer remains intact.
+
+Interactions pair home offense with away defense and vice versa, pair success rates the same way, compare recent and long-term offensive differences, and multiply scaled Elo and scoring differences. They are experimental mathematical inputs, not assumed causal effects. Forward permutation importance shuffles individual features and whole groups, reports repeated loss changes, and is labeled exploratory. Correlated features can mask redundant information or yield unrealistic permutations; importance must not become post-hoc tuning against 2024–2025. M2 standardized coefficients are exported alongside it.
+
+Model Analysis now displays M4 comparisons, calibration, confidence buckets, selection trials, training/calibration/forward gaps, feature-importance charts and candidate metadata. All five existing pages remain functional. Selecting a model in a diagnostic chart never changes the champion or logs forecasts. Previously examined 2024–2025 remains exploratory. Future independent confirmation must use genuinely issued prospective forecasts rather than retrospectively manufactured issuance dates.
+
+### Candidate registry and explicit activation
+
+Candidate joblib files and metadata live under ignored `models/registry/candidates/<version>/`. Each immutable entry records version, algorithm, feature schema/list/configuration, parameters, training/calibration cutoff, dataset fingerprint, report reference and artifact checksum. Serialized M1/M2 models remain readable. Report bundles under `reports/m4/<key>/` include registry metadata/checksums without committing trained model artifacts. Load only trusted local joblib files; integrity hashes do not make an untrusted pickle safe.
+
+M4 **does not activate any candidate**. A future operator may use the explicit workflow below only after completing a documented statistical review and native Windows acceptance. JSON assertions do not prove that the review occurred; retain the actual evidence.
+
+```json
+{
+  "candidate_version": "exact registered version",
+  "decision": "approve",
+  "reviewer": "named reviewer",
+  "rationale": "documented forward probability-quality and stability decision",
+  "windows_verified": true,
+  "artifact_sha256": "checksum from candidate metadata",
+  "evidence_report": "path to an existing review report (relative to this JSON or absolute)",
+  "evidence_sha256": "SHA-256 of that review report"
+}
+```
+
+```powershell
+python -m nfl_predictor.cli activate-model --decision-file reviewed_decision.json
+python -m nfl_predictor.cli rollback-model --event-id EVENT_ID_FROM_ACTIVATION
+```
+
+Activation verifies the exact reviewed artifact and evidence file, saves the previous champion to an immutable hash-named backup, records a prepared event, then atomically replaces the production artifact. Rollback verifies the current champion corresponds to that event and restores the preserved bytes. Both old and M4 feature adapters are supported when scoring upcoming games; M4 uses Elo known at **issuance time**, not results becoming available before a future kickoff. Existing SQLite payloads are never rewritten. Avoid concurrent activation/rollback commands. If interrupted after replacement, a `prepared` event can still support rollback when artifact hashes match. The existing `train` command remains an explicit logistic production refit; it is distinct from M4 candidate training.
+
+All candidate results remain exploratory. A small historical accuracy gain, an unadjusted importance score or a single favorable interval is insufficient for promotion. Windows testing, historical source vintages, final-publication timestamps, limited seasons, repeated-team dependence and multiplicity remain limitations. M5 and M7 are not implemented.
+
+The installed sklearn 1.9 binning routine cannot fit an entirely missing training column. M4 excludes such columns based only on training rows and records them in candidate metadata; they stay excluded even if later values become available. Partially missing columns still use native tree routing. An entirely empty feature matrix uses an intercept-only constant. No source statistics are invented. If a cached report exists but its ignored candidate artifacts are absent/corrupt, `compare-m4 --refresh` creates a new versioned run with identical parameters and an explicit rebuild revision, preserving the previous evidence.

@@ -12,11 +12,15 @@ def predict(schedules,metrics,model,db,cutoff=None):
     if not len(upcoming):
         return pd.DataFrame()
     # Preserve all history when computing only upcoming feature rows.
-    f=build(schedules,metrics,cutoff,game_ids=upcoming.game_id)
+    if model.get('feature_schema')=='m4-v1':
+        from .m4_features import prepare
+        f=prepare(schedules,metrics,model['feature_config'],cutoff=cutoff,game_ids=upcoming.game_id)
+    else:
+        f=build(schedules,metrics,cutoff,game_ids=upcoming.game_id)
     f=f[f.game_id.isin(upcoming.game_id)]
     if pd.Timestamp(model['training_cutoff']) >= cutoff:
         raise ValueError('Model training cutoff must precede prediction cutoff')
-    probabilities=model['pipeline'].predict_proba(f[FEATURES])[:,1]
+    probabilities=model['pipeline'].predict_proba(f[model.get('features',FEATURES)])[:,1]
     records=[]
     for (_,g),p in zip(f.iterrows(),probabilities):
         record={'game_id':g.game_id,'season':int(g.season),'week':int(g.week),'home_team':g.home_team,'away_team':g.away_team,'kickoff':g.kickoff.isoformat(),'home_probability':float(p),'away_probability':float(1-p),'predicted_winner':g.home_team if p>=.5 else g.away_team,'model_version':model['version'],'created_at':now.isoformat(),'data_cutoff':cutoff.isoformat()}
