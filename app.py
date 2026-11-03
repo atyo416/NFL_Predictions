@@ -1,0 +1,67 @@
+"""Local interface. All network operations are explicit button actions."""
+import json
+import pandas as pd
+import streamlit as st
+from nfl_predictor.data_loader import cached,update,DATA,ROOT
+from nfl_predictor.feature_engineering import team_games,rating
+from nfl_predictor.model import load
+from nfl_predictor.predictions import predict
+from nfl_predictor.database import connect,attach_results
+st.set_page_config(page_title='NFL Prediction Engine',layout='wide')
+st.title('NFL Game Prediction Engine · M1')
+st.caption('Experimental statistical baseline. Probabilities are not claimed to be calibrated.')
+page=st.sidebar.radio('Page',['Upcoming Games','Team Comparison','Model Performance'])
+try:
+    schedules,metrics=cached()
+except Exception as exc:
+    st.warning(str(exc)); st.code('python -m nfl_predictor.cli update'); st.stop()
+metadata=sorted((DATA/'processed').glob('metadata_*.json'))
+if metadata:
+    stamp=max(json.loads(p.read_text())['retrieved_at'] for p in metadata)
+    st.caption('Last source retrieval: '+stamp)
+    if pd.Timestamp.now(tz='UTC')-pd.Timestamp(stamp)>pd.Timedelta(days=2): st.warning('Cached data is more than two days old.')
+model_path=ROOT/'models/production.joblib'
+model=load(model_path) if model_path.exists() else None
+st.caption('Model: '+(model['version'] if model else 'not trained'))
+if page=='Upcoming Games':
+    season=st.selectbox('Season',sorted(schedules.season.unique()),index=len(schedules.season.unique())-1)
+    week=st.selectbox('Week',sorted(schedules.loc[schedules.season.eq(season),'week'].unique()))
+    if st.button('Refresh Data'):
+        try:
+            with st.spinner('Refreshing current season…'): update([2026],refresh=True)
+            st.rerun()
+        except Exception as exc: st.error(str(exc))
+    upcoming=schedules[schedules.season.eq(season)&schedules.week.eq(week)&~schedules.completed&schedules.kickoff.gt(pd.Timestamp.now(tz='UTC'))]
+    st.dataframe(upcoming[['kickoff','away_team','home_team']],hide_index=True)
+    if st.button('Generate Predictions',disabled=model is None):
+        try:
+            db=connect(DATA/'predictions.db'); attach_results(db,schedules)
+            result=predict(schedules,metrics,model,db); db.close()
+            if result.empty: st.info('No legitimate upcoming 2026 games available.')
+            else: st.dataframe(result[result.week.eq(week)],hide_index=True)
+        except Exception as exc: st.error(str(exc))
+    db=connect(DATA/'predictions.db')
+    saved=pd.read_sql_query('SELECT payload,result FROM predictions ORDER BY id DESC',db); db.close()
+    if len(saved):
+        st.subheader('Saved forecasts')
+        st.dataframe(pd.DataFrame([dict(json.loads(r.payload),result=r.result) for r in saved.itertuples()]),hide_index=True)
+elif page=='Team Comparison':
+    teams=sorted(set(schedules.home_team)|set(schedules.away_team))
+    a=st.selectbox('Team A',teams); b=st.selectbox('Team B',teams,index=1)
+    cutoff=pd.Timestamp.now(tz='UTC'); history=team_games(schedules,metrics)
+    st.dataframe(pd.DataFrame({a:rating(history,a,2026,cutoff),b:rating(history,b,2026,cutoff)}))
+    matches=schedules[((schedules.home_team.eq(a)&schedules.away_team.eq(b))|(schedules.home_team.eq(b)&schedules.away_team.eq(a)))&schedules.season.eq(2026)&schedules.kickoff.gt(cutoff)]
+    st.caption('Only actual scheduled matchups are supported. Hypothetical forecasts would require an explicit venue and cutoff and cannot be official.')
+    if len(matches) and model:
+        selected=st.selectbox('Scheduled game',matches.game_id)
+        from nfl_predictor.feature_engineering import build,FEATURES
+        f=build(schedules,metrics,cutoff); f=f[f.game_id.eq(selected)]
+        p=model['pipeline'].predict_proba(f[FEATURES])[0,1]
+        st.write(f'Home win probability: {p:.1%}; away: {1-p:.1%}')
+else:
+    st.info('Historical backtests are retrospective simulations, distinct from forecasts saved before kickoff.')
+    path=ROOT/'reports/backtest.json'
+    if not path.exists(): st.warning('Run python -m nfl_predictor.cli backtest'); st.stop()
+    report=json.loads(path.read_text()); st.json(report)
+    st.image(str(ROOT/'reports/reliability.png'))
+    st.dataframe(pd.read_parquet(ROOT/'reports/historical_predictions.parquet'),hide_index=True)
