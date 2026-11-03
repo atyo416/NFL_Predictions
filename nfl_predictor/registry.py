@@ -33,7 +33,11 @@ def load_candidate(directory,version):
     path=Path(directory)/'candidates'/version;metadata=json.loads((path/'metadata.json').read_text())
     if digest(path/'model.joblib')!=metadata['artifact_sha256']:raise ValueError('Candidate checksum mismatch')
     # Trusted local artifacts only. Hashes detect changes, not malicious joblib content.
-    return joblib.load(path/'model.joblib'),metadata
+    model=joblib.load(path/'model.joblib')
+    if model.get('feature_schema')=='m7-ensemble-v1':
+        from .ensemble_registry import verify_references
+        verify_references(model,directory)
+    return model,metadata
 
 def list_candidates(directory):
     directory=Path(directory)

@@ -1,0 +1,11 @@
+{
+  "method": "E1_equal__raw",
+  "strongest_individual": "logistic",
+  "seasons": [
+    2022,
+    2023
+  ],
+  "outcome_cutoff": "2024-01-08T09:20:00+00:00",
+  "rules": "Equal-season development mean Brier, then log loss, then name. Freeze before 2024. Annual parameter refits follow the fixed calendar.",
+  "ensemble_configurations_compared": 24
+}

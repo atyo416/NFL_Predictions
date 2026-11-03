@@ -1,4 +1,4 @@
-# NFL Game Prediction Engine — M6
+# NFL Game Prediction Engine — M7
 
 Local experimental NFL regular-season winner model using nflverse, Python, logistic regression, Parquet and SQLite. No betting features. CPU only; allow several GB of free disk space for initial play-by-play downloads. Python 3.11+ is required; Python 3.12 was verified on Linux. Windows 10/11 is the target, but a native Windows run has not been verified.
 
@@ -7,7 +7,7 @@ Local experimental NFL regular-season winner model using nflverse, Python, logis
 With Python and Git installed:
 
 ```powershell
-git clone --branch m6-opponent-personnel https://github.com/atyo416/NFL_Predictions.git
+git clone --branch m7-ensemble-calibration https://github.com/atyo416/NFL_Predictions.git
 cd NFL_Predictions
 py -3.12 -m venv .venv
 .\.venv\Scripts\Activate.ps1
@@ -294,3 +294,86 @@ Personnel E/F experiments require matched verified samples, minimum 100 training
 Team Comparison adds raw/adjusted EPA, success, opponent schedule context, previous observed QB, verified expected context and position-group unknowns. Model Analysis adds M6 comparisons, noncausal permutation diagnostics, coverage, calibration and model metadata. Source player statistics/participation/snap-count schemas were inspected; complete historical **verified pregame** availability was not established. See `M6_ENGINEERING_REPORT.md` for measured successful and unsuccessful experiments.
 
 The brief reports M5 native acceptance; M6's Linux tests do not constitute a new genuine Windows run. The corrected file-based PowerShell preflight remains in place. On Windows Python 3.12, run the full test suite, both feature/analysis commands, verify all existing pages, champion predictions, registry loading and persistence using the acceptance checklist. M7 is not implemented.
+
+
+## M7: chronological ensembles and separate experimental forecasts
+
+The official M2 champion and its forecast SQLite remain unchanged. M7 uses the
+established logistic architecture, fixed M5 2008-onward/uniform shallow boosting,
+and fixed M3 margin Elo. M6 adjusted features and personnel models are excluded.
+Every M7 base refit and ensemble remains experimental and activation-blocked.
+
+```powershell
+python -m nfl_predictor.cli build-ensemble-predictions
+python -m nfl_predictor.cli compare-m7
+python -m nfl_predictor.cli report-m7
+python -m nfl_predictor.cli forecast-ensemble
+python -m nfl_predictor.cli grade-ensemble
+python -m pytest -q
+python -m streamlit run app.py
+```
+
+Reuse your existing 1999–2026 source caches (see M5 ingestion above). These commands
+never retrain or replace the official model. The first historical run fits annual
+base models; later ensembles reuse compact predictions. `forecast-ensemble` reads
+fitted artifacts and never trains them. The default cutoff is the actual current
+time; an explicit aware cutoff is supported, for example:
+
+```powershell
+python -m nfl_predictor.cli forecast-ensemble --cutoff 2026-11-03T17:00:00-05:00
+```
+
+That example is valid only after that cutoff and while eligible games are still
+unstarted; it never backdates issuance. `--game-id` restricts issuance to an actual
+upcoming game. Historical commands reject `--cutoff` because their fold calendar
+is fixed. The `grade-ensemble` command appends eligible results and revised result
+events separately; forecasts never change.
+
+The pre-implementation calendar and candidate definitions are recorded in
+[docs/m7/PROTOCOL.md](docs/m7/PROTOCOL.md). Each historical target season uses
+base models trained through the preceding season. M2 retains original full
+features/2018 history; M5 retains common features plus standard Elo warmed from
+1999, while standalone margin Elo retains its original 2018 replay origin.
+Consequently M7's annual HGB reference differs from M5's frozen-2022 evaluation.
+Only matched M7 comparisons isolate the ensemble contribution.
+
+OOS seasons 2019 onward supply meta-training rows. Development evaluation uses
+2022–2023, with separate earlier meta and calibration years; 2024–2025 is
+repeatedly examined exploratory evaluation. The eight raw ensemble methods are
+equal weights, boosting/Elo average, three predefined fixed-weight triples,
+constrained Brier-optimized weights with fixed shrinkage, and two regularized
+three-input stackers (probabilities/log odds). Raw/sigmoid/isotonic alternatives
+make up to 24 policies. Equal-season development Brier, then log loss and name,
+selects the policy. Later annual fits update parameters under that frozen policy
+using earlier eligible outcomes. No future-game outcomes choose that game's
+weights, calibrator or policy. Confidence intervals are exploratory and are not
+adjusted for selecting among many correlated candidates.
+
+The base matrix includes actual generation time, retrospective classification,
+per-game cutoffs, base versions/training times, source fingerprints, missing flags
+and outcomes. Ties/incomplete/unavailable labels and missing predictions are
+reported explicitly; missing probabilities never become 0.5. Complete earlier
+rows are required for fitting and aligned comparisons.
+
+Actual experimental forecasts are separate append-only checksummed JSON files in
+`data/m7/experimental_forecasts`, with immutable game/version/cutoff identities,
+base probabilities/checksums, calibration, actual creation time and provenance.
+A repeated identical request reuses the saved record. Changed probabilities or
+sources at the same identity raise an error; use a new cutoff/version for a
+revision. Separate result events support later grading. Multiple revisions of one
+game are correlated and must not be counted as independent forecast evidence.
+The original SQLite database is never opened by M7 issuance or grading.
+
+Model Analysis adds **Ensemble Analysis**, including base/ensemble comparisons,
+weights, calibration, disagreements, fold boundaries and genuine forecast records.
+Team Comparison shows saved experimental probabilities only when their referenced
+artifacts verify; unavailable results remain unavailable. The existing official
+champion estimate has its own labeled cutoff. Rendering neither trains nor issues
+forecasts. Reports and source code are committed; downloaded data, local SQLite
+and fitted joblib files remain ignored, so a clean ZIP requires cache reproduction.
+
+On genuine Windows Python 3.12, run `.\scripts\windows_acceptance.ps1 -Full`
+for combined M6/M7 processing and then inspect all pages, CPU and peak RAM.
+M6/M7 native Windows acceptance remains outstanding when only Linux checks are
+reported. See [M7_ENGINEERING_REPORT.md](M7_ENGINEERING_REPORT.md) for measured
+results, preservation evidence and limitations. No M8 features are implemented.

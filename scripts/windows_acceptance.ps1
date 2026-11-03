@@ -31,8 +31,12 @@ if ($Full) {
     Invoke-PythonCheck -CommandArgs @('-m', 'nfl_predictor.cli', 'build-adjusted-efficiency')
     Invoke-PythonCheck -CommandArgs @('-m', 'nfl_predictor.cli', 'audit-personnel')
     Invoke-PythonCheck -CommandArgs @('-m', 'nfl_predictor.cli', 'report-m6')
+    Invoke-PythonCheck -CommandArgs @('-m', 'nfl_predictor.cli', 'build-ensemble-predictions')
+    Invoke-PythonCheck -CommandArgs @('-m', 'nfl_predictor.cli', 'report-m7')
+    Invoke-PythonCheck -CommandArgs @('-m', 'nfl_predictor.cli', 'forecast-ensemble')
+    Invoke-PythonCheck -CommandArgs @('-m', 'nfl_predictor.cli', 'grade-ensemble')
 }
 Invoke-PythonCheck -CommandArgs @('scripts/verify_local_acceptance.py', '--baseline', $BaselinePath)
 Write-Host 'Review the saved acceptance evidence. Missing model/data or skipped upcoming games remain incomplete checks.'
-Write-Host 'Start the UI manually: python -m streamlit run app.py; verify all five pages, Historical Training Analysis and M6 opponent/personnel sections.'
+Write-Host 'Start the UI manually: python -m streamlit run app.py; verify all five pages, Historical Training Analysis, M6 opponent/personnel and M7 Ensemble Analysis.'
 Write-Host 'Record genuine Windows peak RAM/runtime separately. This script does not approve promotion or activate models.'

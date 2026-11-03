@@ -1,0 +1,687 @@
+{
+  "key": "21f8146e6ec38a0fdaa80b597154e7673bd260d8adc4579141ac535a2c7c2a77",
+  "annual_base_refs": {
+    "2019": {
+      "logistic": {
+        "version": "m7-base-2019-logistic-41eef1fc9cc0cf54",
+        "artifact_sha256": "8c8fe5852918b0d9843543e23a2b23cd0e6ce7e139abacc2b11cc68013229342",
+        "feature_schema": "m7-logistic-v1",
+        "features": [
+          "off_epa",
+          "def_epa",
+          "scoring",
+          "turnover",
+          "off_success",
+          "def_success",
+          "win",
+          "off_yards",
+          "def_yards",
+          "recent_off_epa",
+          "recent_def_epa",
+          "rest",
+          "neutral"
+        ],
+        "base_kind": "logistic",
+        "training_cutoff": "2018-12-31T09:20:00+00:00"
+      },
+      "boosting": {
+        "version": "m7-base-2019-boosting-1a0718b07b387642",
+        "artifact_sha256": "9206bb7c8fc9f8e4f806522c415737561f4d41f7f9c3d1d1910bdd079a932c14",
+        "feature_schema": "m7-boosting-v1",
+        "features": [
+          "off_epa",
+          "def_epa",
+          "scoring",
+          "turnover",
+          "off_success",
+          "def_success",
+          "win",
+          "off_yards",
+          "def_yards",
+          "recent_off_epa",
+          "recent_def_epa",
+          "neutral",
+          "elo_difference"
+        ],
+        "base_kind": "boosting",
+        "training_cutoff": "2018-12-31T09:20:00+00:00"
+      },
+      "elo_margin": {
+        "version": "m7-base-2019-elo-4909d155d4903e82",
+        "artifact_sha256": "619918564c2cf2aabfbe701c27a32d4a14202a04f9394069e79c4b03bfae0b54",
+        "feature_schema": "m7-elo_margin-v1",
+        "features": [
+          "p_elo_margin"
+        ],
+        "base_kind": "elo_margin",
+        "training_cutoff": "2018-12-31T09:20:00+00:00"
+      }
+    },
+    "2020": {
+      "logistic": {
+        "version": "m7-base-2020-logistic-5bb1294260dc29a5",
+        "artifact_sha256": "87b77a748eac14112861697c677b0978679e0ab713466dd8e78e548282780f87",
+        "feature_schema": "m7-logistic-v1",
+        "features": [
+          "off_epa",
+          "def_epa",
+          "scoring",
+          "turnover",
+          "off_success",
+          "def_success",
+          "win",
+          "off_yards",
+          "def_yards",
+          "recent_off_epa",
+          "recent_def_epa",
+          "rest",
+          "neutral"
+        ],
+        "base_kind": "logistic",
+        "training_cutoff": "2019-12-30T09:20:00+00:00"
+      },
+      "boosting": {
+        "version": "m7-base-2020-boosting-fc49c7d25850ef6a",
+        "artifact_sha256": "cb3a15cf7656e7461d83f716e26c04ad5480f0478cf0dd071a449c26b4392ef8",
+        "feature_schema": "m7-boosting-v1",
+        "features": [
+          "off_epa",
+          "def_epa",
+          "scoring",
+          "turnover",
+          "off_success",
+          "def_success",
+          "win",
+          "off_yards",
+          "def_yards",
+          "recent_off_epa",
+          "recent_def_epa",
+          "neutral",
+          "elo_difference"
+        ],
+        "base_kind": "boosting",
+        "training_cutoff": "2019-12-30T09:20:00+00:00"
+      },
+      "elo_margin": {
+        "version": "m7-base-2020-elo-bad170e118abd41a",
+        "artifact_sha256": "406f204bc4bc4e7c11d871f2f823400ee02420bb54b0bf0826feb60a4556003a",
+        "feature_schema": "m7-elo_margin-v1",
+        "features": [
+          "p_elo_margin"
+        ],
+        "base_kind": "elo_margin",
+        "training_cutoff": "2019-12-30T09:20:00+00:00"
+      }
+    },
+    "2021": {
+      "logistic": {
+        "version": "m7-base-2021-logistic-998d1d5f25b7d65e",
+        "artifact_sha256": "6a093b7590afc75cb91e1be743e9842cab837a9bcb67d7198974472f4f9d3dc4",
+        "feature_schema": "m7-logistic-v1",
+        "features": [
+          "off_epa",
+          "def_epa",
+          "scoring",
+          "turnover",
+          "off_success",
+          "def_success",
+          "win",
+          "off_yards",
+          "def_yards",
+          "recent_off_epa",
+          "recent_def_epa",
+          "rest",
+          "neutral"
+        ],
+        "base_kind": "logistic",
+        "training_cutoff": "2021-01-04T09:20:00+00:00"
+      },
+      "boosting": {
+        "version": "m7-base-2021-boosting-ff0cb9b8e701df73",
+        "artifact_sha256": "69ee989d1205d86190084e82a088a48f7782b1321b06ed146f2c1eeb24eaa453",
+        "feature_schema": "m7-boosting-v1",
+        "features": [
+          "off_epa",
+          "def_epa",
+          "scoring",
+          "turnover",
+          "off_success",
+          "def_success",
+          "win",
+          "off_yards",
+          "def_yards",
+          "recent_off_epa",
+          "recent_def_epa",
+          "neutral",
+          "elo_difference"
+        ],
+        "base_kind": "boosting",
+        "training_cutoff": "2021-01-04T09:20:00+00:00"
+      },
+      "elo_margin": {
+        "version": "m7-base-2021-elo-56efe618f0b575b1",
+        "artifact_sha256": "684b7d1b65ec58d503c21ce05c05e051b87582c9c06046933772d7061734b4b5",
+        "feature_schema": "m7-elo_margin-v1",
+        "features": [
+          "p_elo_margin"
+        ],
+        "base_kind": "elo_margin",
+        "training_cutoff": "2021-01-04T09:20:00+00:00"
+      }
+    },
+    "2022": {
+      "logistic": {
+        "version": "m7-base-2022-logistic-1717280d00f06b09",
+        "artifact_sha256": "a46b8d49f81e2554753407af49753d9b87afb98f1f19fe7c445a245ba43d9247",
+        "feature_schema": "m7-logistic-v1",
+        "features": [
+          "off_epa",
+          "def_epa",
+          "scoring",
+          "turnover",
+          "off_success",
+          "def_success",
+          "win",
+          "off_yards",
+          "def_yards",
+          "recent_off_epa",
+          "recent_def_epa",
+          "rest",
+          "neutral"
+        ],
+        "base_kind": "logistic",
+        "training_cutoff": "2022-01-10T09:20:00+00:00"
+      },
+      "boosting": {
+        "version": "m7-base-2022-boosting-b970d6439b1abc89",
+        "artifact_sha256": "d00b95e748df2da57c6b48b9e2a5e47e7fe8d4e97a6239917778d510f95e2621",
+        "feature_schema": "m7-boosting-v1",
+        "features": [
+          "off_epa",
+          "def_epa",
+          "scoring",
+          "turnover",
+          "off_success",
+          "def_success",
+          "win",
+          "off_yards",
+          "def_yards",
+          "recent_off_epa",
+          "recent_def_epa",
+          "neutral",
+          "elo_difference"
+        ],
+        "base_kind": "boosting",
+        "training_cutoff": "2022-01-10T09:20:00+00:00"
+      },
+      "elo_margin": {
+        "version": "m7-base-2022-elo-04bc35af594af132",
+        "artifact_sha256": "2d3449bd5060fc96eafe08bd5c301740f48c03adb839674aa62c279d3beb9054",
+        "feature_schema": "m7-elo_margin-v1",
+        "features": [
+          "p_elo_margin"
+        ],
+        "base_kind": "elo_margin",
+        "training_cutoff": "2022-01-10T09:20:00+00:00"
+      }
+    },
+    "2023": {
+      "logistic": {
+        "version": "m7-base-2023-logistic-f8c4a7fefbc5b5d7",
+        "artifact_sha256": "21026fdce90020e329caf5b12b029adb1afa14a622c97ffd3c3508e73445ba85",
+        "feature_schema": "m7-logistic-v1",
+        "features": [
+          "off_epa",
+          "def_epa",
+          "scoring",
+          "turnover",
+          "off_success",
+          "def_success",
+          "win",
+          "off_yards",
+          "def_yards",
+          "recent_off_epa",
+          "recent_def_epa",
+          "rest",
+          "neutral"
+        ],
+        "base_kind": "logistic",
+        "training_cutoff": "2023-01-09T09:20:00+00:00"
+      },
+      "boosting": {
+        "version": "m7-base-2023-boosting-219c5232c5184838",
+        "artifact_sha256": "2395e574cf6a3808c51ba3d60a1475685a03a4257e03a140751e4b89a4700ed0",
+        "feature_schema": "m7-boosting-v1",
+        "features": [
+          "off_epa",
+          "def_epa",
+          "scoring",
+          "turnover",
+          "off_success",
+          "def_success",
+          "win",
+          "off_yards",
+          "def_yards",
+          "recent_off_epa",
+          "recent_def_epa",
+          "neutral",
+          "elo_difference"
+        ],
+        "base_kind": "boosting",
+        "training_cutoff": "2023-01-09T09:20:00+00:00"
+      },
+      "elo_margin": {
+        "version": "m7-base-2023-elo-a4ee53befae5b000",
+        "artifact_sha256": "e1b0658c58c89f08ffe6e1d85740db337a70e303200701051d914b4bd9604e7c",
+        "feature_schema": "m7-elo_margin-v1",
+        "features": [
+          "p_elo_margin"
+        ],
+        "base_kind": "elo_margin",
+        "training_cutoff": "2023-01-09T09:20:00+00:00"
+      }
+    },
+    "2024": {
+      "logistic": {
+        "version": "m7-base-2024-logistic-aadb6c850175bbbe",
+        "artifact_sha256": "f314852b8fc18207f6ab3d6a407fde64dc77d87600bb939b373264dc59859c94",
+        "feature_schema": "m7-logistic-v1",
+        "features": [
+          "off_epa",
+          "def_epa",
+          "scoring",
+          "turnover",
+          "off_success",
+          "def_success",
+          "win",
+          "off_yards",
+          "def_yards",
+          "recent_off_epa",
+          "recent_def_epa",
+          "rest",
+          "neutral"
+        ],
+        "base_kind": "logistic",
+        "training_cutoff": "2024-01-08T09:20:00+00:00"
+      },
+      "boosting": {
+        "version": "m7-base-2024-boosting-9bacbe09c43034cc",
+        "artifact_sha256": "f7391d0ee089d0f52fb53313557d70a035c16de3c76991f2c48e4a9d856d54f5",
+        "feature_schema": "m7-boosting-v1",
+        "features": [
+          "off_epa",
+          "def_epa",
+          "scoring",
+          "turnover",
+          "off_success",
+          "def_success",
+          "win",
+          "off_yards",
+          "def_yards",
+          "recent_off_epa",
+          "recent_def_epa",
+          "neutral",
+          "elo_difference"
+        ],
+        "base_kind": "boosting",
+        "training_cutoff": "2024-01-08T09:20:00+00:00"
+      },
+      "elo_margin": {
+        "version": "m7-base-2024-elo-279b0786ed6c1be2",
+        "artifact_sha256": "e73a903a827897a1e5c1879b62cdae2b5baa73244a35bf8fb43151acfbfe78b7",
+        "feature_schema": "m7-elo_margin-v1",
+        "features": [
+          "p_elo_margin"
+        ],
+        "base_kind": "elo_margin",
+        "training_cutoff": "2024-01-08T09:20:00+00:00"
+      }
+    },
+    "2025": {
+      "logistic": {
+        "version": "m7-base-2025-logistic-826d8166e95a0f62",
+        "artifact_sha256": "0f232b24845fd04ff1fe6f8d794c9a329628e4457c8e1087f8ebe0cb24ffa8ef",
+        "feature_schema": "m7-logistic-v1",
+        "features": [
+          "off_epa",
+          "def_epa",
+          "scoring",
+          "turnover",
+          "off_success",
+          "def_success",
+          "win",
+          "off_yards",
+          "def_yards",
+          "recent_off_epa",
+          "recent_def_epa",
+          "rest",
+          "neutral"
+        ],
+        "base_kind": "logistic",
+        "training_cutoff": "2025-01-06T09:20:00+00:00"
+      },
+      "boosting": {
+        "version": "m7-base-2025-boosting-b6ab5346c3e5f71c",
+        "artifact_sha256": "99e2c11d1c16d572082c4fe6fa6d79a0e7e4a0996099d9fcf08ff27dbe3ca918",
+        "feature_schema": "m7-boosting-v1",
+        "features": [
+          "off_epa",
+          "def_epa",
+          "scoring",
+          "turnover",
+          "off_success",
+          "def_success",
+          "win",
+          "off_yards",
+          "def_yards",
+          "recent_off_epa",
+          "recent_def_epa",
+          "neutral",
+          "elo_difference"
+        ],
+        "base_kind": "boosting",
+        "training_cutoff": "2025-01-06T09:20:00+00:00"
+      },
+      "elo_margin": {
+        "version": "m7-base-2025-elo-660a3a2fb59602e7",
+        "artifact_sha256": "0b4b19147dd73d2ad2cec6341f3bfd4a4bc8f08af2fc44092788d2512663fa97",
+        "feature_schema": "m7-elo_margin-v1",
+        "features": [
+          "p_elo_margin"
+        ],
+        "base_kind": "elo_margin",
+        "training_cutoff": "2025-01-06T09:20:00+00:00"
+      }
+    },
+    "2026": {
+      "logistic": {
+        "version": "m7-base-2026-logistic-df27c7bcf964bdef",
+        "artifact_sha256": "b993e155152db65456cf1d330d85e58c1babf3480359da94b4b374b77672ceac",
+        "feature_schema": "m7-logistic-v1",
+        "features": [
+          "off_epa",
+          "def_epa",
+          "scoring",
+          "turnover",
+          "off_success",
+          "def_success",
+          "win",
+          "off_yards",
+          "def_yards",
+          "recent_off_epa",
+          "recent_def_epa",
+          "rest",
+          "neutral"
+        ],
+        "base_kind": "logistic",
+        "training_cutoff": "2026-01-05T09:20:00+00:00"
+      },
+      "boosting": {
+        "version": "m7-base-2026-boosting-079349ddbe0f0ce9",
+        "artifact_sha256": "c4f228ed7ab6ced72c446b94a3183d07b48afb4fd62125157941c2097af4122b",
+        "feature_schema": "m7-boosting-v1",
+        "features": [
+          "off_epa",
+          "def_epa",
+          "scoring",
+          "turnover",
+          "off_success",
+          "def_success",
+          "win",
+          "off_yards",
+          "def_yards",
+          "recent_off_epa",
+          "recent_def_epa",
+          "neutral",
+          "elo_difference"
+        ],
+        "base_kind": "boosting",
+        "training_cutoff": "2026-01-05T09:20:00+00:00"
+      },
+      "elo_margin": {
+        "version": "m7-base-2026-elo-b920e7a522eea884",
+        "artifact_sha256": "f5b0c6e881fa3ac9903ef17c59c4af8a9bd8d3d09f3fd26beb53d20bf4af5748",
+        "feature_schema": "m7-elo_margin-v1",
+        "features": [
+          "p_elo_margin"
+        ],
+        "base_kind": "elo_margin",
+        "training_cutoff": "2026-01-05T09:20:00+00:00"
+      }
+    }
+  },
+  "season_starts": {
+    "2019": "2019-09-06T00:20:00+00:00",
+    "2020": "2020-09-11T00:20:00+00:00",
+    "2021": "2021-09-10T00:20:00+00:00",
+    "2022": "2022-09-09T00:20:00+00:00",
+    "2023": "2023-09-08T00:20:00+00:00",
+    "2024": "2024-09-06T00:20:00+00:00",
+    "2025": "2025-09-05T00:20:00+00:00",
+    "2026": "2026-09-10T00:20:00+00:00"
+  },
+  "training": [
+    {
+      "base": "logistic",
+      "target_season": 2019,
+      "training_games": 254,
+      "excluded_delayed_training_labels": 0,
+      "training_cutoff": "2018-12-31T09:20:00+00:00",
+      "version": "m7-base-2019-logistic-41eef1fc9cc0cf54"
+    },
+    {
+      "base": "boosting",
+      "target_season": 2019,
+      "training_games": 2808,
+      "excluded_delayed_training_labels": 0,
+      "training_cutoff": "2018-12-31T09:20:00+00:00",
+      "version": "m7-base-2019-boosting-1a0718b07b387642"
+    },
+    {
+      "base": "logistic",
+      "target_season": 2020,
+      "training_games": 509,
+      "excluded_delayed_training_labels": 0,
+      "training_cutoff": "2019-12-30T09:20:00+00:00",
+      "version": "m7-base-2020-logistic-5bb1294260dc29a5"
+    },
+    {
+      "base": "boosting",
+      "target_season": 2020,
+      "training_games": 3063,
+      "excluded_delayed_training_labels": 0,
+      "training_cutoff": "2019-12-30T09:20:00+00:00",
+      "version": "m7-base-2020-boosting-fc49c7d25850ef6a"
+    },
+    {
+      "base": "logistic",
+      "target_season": 2021,
+      "training_games": 764,
+      "excluded_delayed_training_labels": 0,
+      "training_cutoff": "2021-01-04T09:20:00+00:00",
+      "version": "m7-base-2021-logistic-998d1d5f25b7d65e"
+    },
+    {
+      "base": "boosting",
+      "target_season": 2021,
+      "training_games": 3318,
+      "excluded_delayed_training_labels": 0,
+      "training_cutoff": "2021-01-04T09:20:00+00:00",
+      "version": "m7-base-2021-boosting-ff0cb9b8e701df73"
+    },
+    {
+      "base": "logistic",
+      "target_season": 2022,
+      "training_games": 1035,
+      "excluded_delayed_training_labels": 0,
+      "training_cutoff": "2022-01-10T09:20:00+00:00",
+      "version": "m7-base-2022-logistic-1717280d00f06b09"
+    },
+    {
+      "base": "boosting",
+      "target_season": 2022,
+      "training_games": 3589,
+      "excluded_delayed_training_labels": 0,
+      "training_cutoff": "2022-01-10T09:20:00+00:00",
+      "version": "m7-base-2022-boosting-b970d6439b1abc89"
+    },
+    {
+      "base": "logistic",
+      "target_season": 2023,
+      "training_games": 1304,
+      "excluded_delayed_training_labels": 0,
+      "training_cutoff": "2023-01-09T09:20:00+00:00",
+      "version": "m7-base-2023-logistic-f8c4a7fefbc5b5d7"
+    },
+    {
+      "base": "boosting",
+      "target_season": 2023,
+      "training_games": 3858,
+      "excluded_delayed_training_labels": 0,
+      "training_cutoff": "2023-01-09T09:20:00+00:00",
+      "version": "m7-base-2023-boosting-219c5232c5184838"
+    },
+    {
+      "base": "logistic",
+      "target_season": 2024,
+      "training_games": 1576,
+      "excluded_delayed_training_labels": 0,
+      "training_cutoff": "2024-01-08T09:20:00+00:00",
+      "version": "m7-base-2024-logistic-aadb6c850175bbbe"
+    },
+    {
+      "base": "boosting",
+      "target_season": 2024,
+      "training_games": 4130,
+      "excluded_delayed_training_labels": 0,
+      "training_cutoff": "2024-01-08T09:20:00+00:00",
+      "version": "m7-base-2024-boosting-9bacbe09c43034cc"
+    },
+    {
+      "base": "logistic",
+      "target_season": 2025,
+      "training_games": 1848,
+      "excluded_delayed_training_labels": 0,
+      "training_cutoff": "2025-01-06T09:20:00+00:00",
+      "version": "m7-base-2025-logistic-826d8166e95a0f62"
+    },
+    {
+      "base": "boosting",
+      "target_season": 2025,
+      "training_games": 4402,
+      "excluded_delayed_training_labels": 0,
+      "training_cutoff": "2025-01-06T09:20:00+00:00",
+      "version": "m7-base-2025-boosting-b6ab5346c3e5f71c"
+    },
+    {
+      "base": "logistic",
+      "target_season": 2026,
+      "training_games": 2119,
+      "excluded_delayed_training_labels": 0,
+      "training_cutoff": "2026-01-05T09:20:00+00:00",
+      "version": "m7-base-2026-logistic-df27c7bcf964bdef"
+    },
+    {
+      "base": "boosting",
+      "target_season": 2026,
+      "training_games": 4673,
+      "excluded_delayed_training_labels": 0,
+      "training_cutoff": "2026-01-05T09:20:00+00:00",
+      "version": "m7-base-2026-boosting-079349ddbe0f0ce9"
+    }
+  ],
+  "seconds": 17.043980284994177,
+  "rows": 1871,
+  "matrix_sha256": "a068bc2ed080fac85e734caf67102c5c04645968c7f85ad52c6088df11af488e",
+  "configuration": {
+    "schema_version": 1,
+    "label": "M7 chronological ensemble research; no production activation",
+    "base_seasons": [
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025,
+      2026
+    ],
+    "development_seasons": [
+      2022,
+      2023
+    ],
+    "evaluation_seasons": [
+      2024,
+      2025
+    ],
+    "meta_start": 2019,
+    "minimum_meta_games": 200,
+    "minimum_meta_seasons": 2,
+    "fixed_weights": {
+      "E1_equal": [
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333
+      ],
+      "E2_boost_elo": [
+        0,
+        0.5,
+        0.5
+      ],
+      "E3_20_60_20": [
+        0.2,
+        0.6,
+        0.2
+      ],
+      "E3_25_50_25": [
+        0.25,
+        0.5,
+        0.25
+      ],
+      "E3_10_70_20": [
+        0.1,
+        0.7,
+        0.2
+      ]
+    },
+    "weight_prior": [
+      0.2,
+      0.6,
+      0.2
+    ],
+    "weight_penalty": 0.02,
+    "stack_C": 1.0,
+    "logit_clip": 1e-06,
+    "isotonic_min_games": 200,
+    "hgb_parameters": {
+      "learning_rate": 0.05,
+      "max_leaf_nodes": 4,
+      "max_depth": 2,
+      "max_iter": 100,
+      "min_samples_leaf": 20,
+      "l2_regularization": 1.0
+    },
+    "standard_elo": {
+      "initial": 1500.0,
+      "scale": 400.0,
+      "k": 20.0,
+      "home_advantage": 50.0,
+      "regression": 0.67,
+      "margin": false
+    },
+    "margin_elo": {
+      "initial": 1500.0,
+      "scale": 400.0,
+      "k": 20.0,
+      "home_advantage": 50.0,
+      "regression": 0.67,
+      "margin": true
+    },
+    "cpu_threads": 2,
+    "seed": 42,
+    "bootstrap_replicates": 2000,
+    "confidence_level": 0.95,
+    "selection": "Equal-season development mean Brier, then log loss, then name. Freeze before 2024. Annual parameter refits follow the fixed calendar."
+  },
+  "code_fingerprint": "44be97be176db96e5e048f4ddb7f701be0951e77afe3a7208b198f8a2b7fff1f"
+}

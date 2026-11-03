@@ -1,0 +1,325 @@
+{
+  "run": "5b401bdc9b161ac3b5ae0b32e2a2aba0c902192926139238d5146b59d78c8a56",
+  "protocol": {
+    "schema_version": 1,
+    "label": "M7 chronological ensemble research; no production activation",
+    "base_seasons": [
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025,
+      2026
+    ],
+    "development_seasons": [
+      2022,
+      2023
+    ],
+    "evaluation_seasons": [
+      2024,
+      2025
+    ],
+    "meta_start": 2019,
+    "minimum_meta_games": 200,
+    "minimum_meta_seasons": 2,
+    "fixed_weights": {
+      "E1_equal": [
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333
+      ],
+      "E2_boost_elo": [
+        0,
+        0.5,
+        0.5
+      ],
+      "E3_20_60_20": [
+        0.2,
+        0.6,
+        0.2
+      ],
+      "E3_25_50_25": [
+        0.25,
+        0.5,
+        0.25
+      ],
+      "E3_10_70_20": [
+        0.1,
+        0.7,
+        0.2
+      ]
+    },
+    "weight_prior": [
+      0.2,
+      0.6,
+      0.2
+    ],
+    "weight_penalty": 0.02,
+    "stack_C": 1.0,
+    "logit_clip": 1e-06,
+    "isotonic_min_games": 200,
+    "hgb_parameters": {
+      "learning_rate": 0.05,
+      "max_leaf_nodes": 4,
+      "max_depth": 2,
+      "max_iter": 100,
+      "min_samples_leaf": 20,
+      "l2_regularization": 1.0
+    },
+    "standard_elo": {
+      "initial": 1500.0,
+      "scale": 400.0,
+      "k": 20.0,
+      "home_advantage": 50.0,
+      "regression": 0.67,
+      "margin": false
+    },
+    "margin_elo": {
+      "initial": 1500.0,
+      "scale": 400.0,
+      "k": 20.0,
+      "home_advantage": 50.0,
+      "regression": 0.67,
+      "margin": true
+    },
+    "cpu_threads": 2,
+    "seed": 42,
+    "bootstrap_replicates": 2000,
+    "confidence_level": 0.95,
+    "selection": "Equal-season development mean Brier, then log loss, then name. Freeze before 2024. Annual parameter refits follow the fixed calendar."
+  },
+  "folds": [
+    {
+      "evaluation": 2022,
+      "meta_seasons": [
+        2019,
+        2020
+      ],
+      "calibration_season": 2021,
+      "meta_games": 510,
+      "calibration_games": 271,
+      "evaluation_games": 269,
+      "meta_outcome_cutoff": "2021-01-04T09:20:00+00:00",
+      "calibration_start": "2021-09-10T00:20:00+00:00",
+      "calibration_outcome_cutoff": "2022-01-10T09:20:00+00:00",
+      "evaluation_start": "2022-09-09T00:20:00+00:00",
+      "excluded_delayed_meta_labels": 0,
+      "excluded_delayed_calibration_labels": 0,
+      "optimizer": {
+        "optimizer": "SLSQP",
+        "success": true,
+        "iterations": 7,
+        "objective": 0.2196282676966189,
+        "weights": [
+          0.07804948327174212,
+          0.623407168820677,
+          0.298543347907581
+        ],
+        "prior": [
+          0.2,
+          0.6,
+          0.2
+        ],
+        "penalty": 0.02
+      },
+      "skipped_calibrations": [],
+      "meta_fingerprint": "f354972076e8284ee5e3da732b31fad6fd388cca2e340ae017d5f3626812b82e",
+      "calibration_fingerprint": "737e66d4b5ba232d955e1e710887e6af43f47d4559608145966c8377cc0e4444"
+    },
+    {
+      "evaluation": 2023,
+      "meta_seasons": [
+        2019,
+        2020,
+        2021
+      ],
+      "calibration_season": 2022,
+      "meta_games": 781,
+      "calibration_games": 269,
+      "evaluation_games": 272,
+      "meta_outcome_cutoff": "2022-01-10T09:20:00+00:00",
+      "calibration_start": "2022-09-09T00:20:00+00:00",
+      "calibration_outcome_cutoff": "2023-01-09T09:20:00+00:00",
+      "evaluation_start": "2023-09-08T00:20:00+00:00",
+      "excluded_delayed_meta_labels": 0,
+      "excluded_delayed_calibration_labels": 0,
+      "optimizer": {
+        "optimizer": "SLSQP",
+        "success": true,
+        "iterations": 7,
+        "objective": 0.2238115622808671,
+        "weights": [
+          0.10324282621718674,
+          0.6123007572849072,
+          0.28445641649790604
+        ],
+        "prior": [
+          0.2,
+          0.6,
+          0.2
+        ],
+        "penalty": 0.02
+      },
+      "skipped_calibrations": [],
+      "meta_fingerprint": "e7708eb884d2764c8ed99b55de129c6d394ba50813cb55f0aa4ea5b8ec98f5f1",
+      "calibration_fingerprint": "e08b183bb7feb7785c9ff608d671319b2a3082bba6ff2fb16612751568ab314a"
+    },
+    {
+      "evaluation": 2024,
+      "meta_seasons": [
+        2019,
+        2020,
+        2021,
+        2022
+      ],
+      "calibration_season": 2023,
+      "meta_games": 1050,
+      "calibration_games": 272,
+      "evaluation_games": 272,
+      "meta_outcome_cutoff": "2023-01-09T09:20:00+00:00",
+      "calibration_start": "2023-09-08T00:20:00+00:00",
+      "calibration_outcome_cutoff": "2024-01-08T09:20:00+00:00",
+      "evaluation_start": "2024-09-06T00:20:00+00:00",
+      "excluded_delayed_meta_labels": 0,
+      "excluded_delayed_calibration_labels": 0,
+      "optimizer": {
+        "optimizer": "SLSQP",
+        "success": true,
+        "iterations": 7,
+        "objective": 0.22420042031538717,
+        "weights": [
+          0.1467281260780317,
+          0.5835466307720651,
+          0.2697252431499031
+        ],
+        "prior": [
+          0.2,
+          0.6,
+          0.2
+        ],
+        "penalty": 0.02
+      },
+      "skipped_calibrations": [],
+      "meta_fingerprint": "8a2e1e069d721e136c017365f9699d7b472ec6d427c426a13ef1f0e1fa4c28fd",
+      "calibration_fingerprint": "04dd93ba7b3743814d3c878b7e03c9b3cdc2347c99cc036e08af5c2ab6b5bf61"
+    },
+    {
+      "evaluation": 2025,
+      "meta_seasons": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023
+      ],
+      "calibration_season": 2024,
+      "meta_games": 1322,
+      "calibration_games": 272,
+      "evaluation_games": 271,
+      "meta_outcome_cutoff": "2024-01-08T09:20:00+00:00",
+      "calibration_start": "2024-09-06T00:20:00+00:00",
+      "calibration_outcome_cutoff": "2025-01-06T09:20:00+00:00",
+      "evaluation_start": "2025-09-05T00:20:00+00:00",
+      "excluded_delayed_meta_labels": 0,
+      "excluded_delayed_calibration_labels": 0,
+      "optimizer": {
+        "optimizer": "SLSQP",
+        "success": true,
+        "iterations": 7,
+        "objective": 0.22595969725505796,
+        "weights": [
+          0.16584400975799313,
+          0.5762534028645203,
+          0.2579025873774865
+        ],
+        "prior": [
+          0.2,
+          0.6,
+          0.2
+        ],
+        "penalty": 0.02
+      },
+      "skipped_calibrations": [],
+      "meta_fingerprint": "12d50a2be763603abb0f9d5616aef68e0e09d464b58c0b047f1c3b36c9cf7ac0",
+      "calibration_fingerprint": "d1f95e1cbd51c9502ff025600a0f3a5c35a52cf2d62ae3998788b12ab5141402"
+    },
+    {
+      "evaluation": 2026,
+      "meta_seasons": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "calibration_season": 2025,
+      "meta_games": 1594,
+      "calibration_games": 271,
+      "evaluation_games": 0,
+      "meta_outcome_cutoff": "2025-01-06T09:20:00+00:00",
+      "calibration_start": "2025-09-05T00:20:00+00:00",
+      "calibration_outcome_cutoff": "2026-01-05T09:20:00+00:00",
+      "evaluation_start": "2026-09-10T00:20:00+00:00",
+      "excluded_delayed_meta_labels": 0,
+      "excluded_delayed_calibration_labels": 0,
+      "optimizer": {
+        "optimizer": "SLSQP",
+        "success": true,
+        "iterations": 7,
+        "objective": 0.22306054228064562,
+        "weights": [
+          0.17036238389884228,
+          0.5855129176348048,
+          0.2441246984663529
+        ],
+        "prior": [
+          0.2,
+          0.6,
+          0.2
+        ],
+        "penalty": 0.02
+      },
+      "skipped_calibrations": [],
+      "meta_fingerprint": "19045ff4983024767c6a1b7658d366834ea7e439ca584ce9359e591a2aaa7dcc",
+      "calibration_fingerprint": "405adcfc11c1e16679474d8c9420b08078ffed67d8ecc5be591118e5d8d1d979"
+    }
+  ],
+  "alignment": {
+    "scheduled_games": 1871,
+    "included_games": 1865,
+    "missing_base_predictions": 0,
+    "ties": 6,
+    "incomplete_labels": 0,
+    "unavailable_or_delayed_labels": 0,
+    "exclusions_are_overlapping": true
+  },
+  "matrix_fingerprint": "21f8146e6ec38a0fdaa80b597154e7673bd260d8adc4579141ac535a2c7c2a77",
+  "selection": {
+    "method": "E1_equal__raw",
+    "strongest_individual": "logistic",
+    "seasons": [
+      2022,
+      2023
+    ],
+    "outcome_cutoff": "2024-01-08T09:20:00+00:00",
+    "rules": "Equal-season development mean Brier, then log loss, then name. Freeze before 2024. Annual parameter refits follow the fixed calendar.",
+    "ensemble_configurations_compared": 24
+  },
+  "runtime_seconds": 15.851969346003898,
+  "peak_rss_bytes": 340283392,
+  "runtime_versions": {
+    "python": "3.12.14",
+    "numpy": "2.5.4",
+    "pandas": "3.1.0",
+    "scikit-learn": "1.9.1",
+    "polars": "2.1.0",
+    "nflreadpy": "0.1.5"
+  },
+  "code_fingerprint": "44be97be176db96e5e048f4ddb7f701be0951e77afe3a7208b198f8a2b7fff1f",
+  "classification": "development and repeatedly examined historical results; no independent prospective outcome claim",
+  "promotion": "All M7 artifacts activation-blocked. M2 production preserved.",
+  "annual_reference": "Annual prior-season refits differ from M5 frozen-2022 evaluation; use matched M7 boosting benchmark."
+}

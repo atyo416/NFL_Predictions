@@ -1,0 +1,23 @@
+{
+  "season_phase.csv": "6c7ed4f0512e8e378e57bba406924eabd3c2c8262b728b816823649ce2b49cf4",
+  "predictions.parquet": "c8c8cd8e4fda45df1832052dd97cac2f8551d0d5cc026074d27c920ff680e743",
+  "base_predictions.parquet": "a3ca327bda1879b35e71d45993602884e7ce05f3fedb0ab47ae1f20cefe4f0ae",
+  "comparison.csv": "08311f52f2f481ef7dd19a16473b811563837d55308337b7d94a5eca5b9de249",
+  "base_prediction_metadata.json": "1dcb76a8c55a903be982e4705575dbc842d78abc96a2090847e6fdd60b384424",
+  "registry_versions.json": "f7914ba8140bae8e09580e4808758564ad25ad5a178ae8b76912884aa1e59a56",
+  "pair_disagreements.csv": "04d4bb948d4be29534d7e4a18e42cb3109bf178ecab286585dd8d65db62403c8",
+  "disagreement.csv": "ec4485707e5dc048fdfe236dc1c2360accc35c079e7cf0f2c0a098c54b8428f8",
+  "prospective_model.json": "b17fa120342c0577e1059e4becedeb4aad2377ded8247fa79372b1fc5e0e90d1",
+  "development_selection.csv": "5c1ee90c36cdb4413843c92db32408d864ce9b0c3a9838351b4f689349bab6c6",
+  "complementarity.csv": "1d8b189f87dbbe59a3d3fda649fdbfdaa89b18a4c6cde871690d8021099b8ce3",
+  "runtime.csv": "cbf615bcd6a8956f78c3650ee609b7bb1a10a0f24b7bfeaf4f4a39c4b7be5663",
+  "calibration.csv": "21f1c7dc233a96aa2711b25582b0c1a92c50aa69f2ff7452738a2eca57e349ac",
+  "parameters.csv": "26b91bbc8b55c314adac8612cd4537876e9d26f68ea27a09b3acd07cfdb89c2b",
+  "metadata.json": "9c1f7c48b6daa451244219177ceb0780a044cf402d1d87088bf2caeedce6fac3",
+  "reliability.png": "c0aa54ab499cd0c110be2dea138626f2c0e21063009522b9acea9e34f84ad0b6",
+  "confidence_buckets.csv": "2a255cd5ccad367318be14ac9c1b15c30f4aae016802c63771dae529e909e6ca",
+  "MODEL_COMPARISON.md": "7d62d15f97ba325556a981cf6b773cd95b348958d283187e304677e202544235",
+  "probability_buckets.csv": "cc02df197004413d4684a452be7a6ad56b1a3b2426d6ed2f300737603eabd3f2",
+  "selection.json": "b37d2128803cc9f1aaf75545290c4c456ae1dad4ec883811c411b7fc4b8310ac",
+  "favorite_underdog.csv": "af435ba40b50ae9396da2b170744954d676451b033d58356fe14a5d6672f2d57"
+}

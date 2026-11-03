@@ -1,0 +1,91 @@
+# M7 exploratory ensemble comparison
+
+Development-selected ensemble: `E1_equal__raw`. Development-selected strongest individual: `logistic`. Policy selection uses 2022–2023 only; annual fitted parameters use earlier OOS labels under the frozen calendar.
+
+| model | metric | estimate | difference | difference_low | difference_high | games |
+| --- | --- | --- | --- | --- | --- | --- |
+| E1_equal__isotonic | accuracy | 0.661142 | 0.000000 | -0.024165 | 0.025410 | 543 |
+| E1_equal__isotonic | brier | 0.222060 | 0.005641 | -0.000034 | 0.010956 | 543 |
+| E1_equal__isotonic | log_loss | 0.652216 | 0.030713 | 0.000151 | 0.077404 | 543 |
+| E1_equal__raw | accuracy | 0.650092 | -0.011050 | -0.027675 | 0.005598 | 543 |
+| E1_equal__raw | brier | 0.216955 | 0.000536 | -0.001811 | 0.002656 | 543 |
+| E1_equal__raw | log_loss | 0.622611 | 0.001108 | -0.004536 | 0.006149 | 543 |
+| E1_equal__sigmoid | accuracy | 0.651934 | -0.009208 | -0.026169 | 0.009278 | 543 |
+| E1_equal__sigmoid | brier | 0.220379 | 0.003960 | 0.000025 | 0.007568 | 543 |
+| E1_equal__sigmoid | log_loss | 0.631473 | 0.009970 | -0.000343 | 0.019319 | 543 |
+| E2_boost_elo__isotonic | accuracy | 0.674033 | 0.012891 | -0.009074 | 0.035120 | 543 |
+| E2_boost_elo__isotonic | brier | 0.219602 | 0.003183 | -0.002684 | 0.009821 | 543 |
+| E2_boost_elo__isotonic | log_loss | 0.668377 | 0.046874 | -0.004997 | 0.114264 | 543 |
+| E2_boost_elo__raw | accuracy | 0.668508 | 0.007366 | -0.010969 | 0.027372 | 543 |
+| E2_boost_elo__raw | brier | 0.216671 | 0.000252 | -0.002342 | 0.002858 | 543 |
+| E2_boost_elo__raw | log_loss | 0.622067 | 0.000564 | -0.005320 | 0.006400 | 543 |
+| E2_boost_elo__sigmoid | accuracy | 0.655617 | -0.005525 | -0.022871 | 0.014468 | 543 |
+| E2_boost_elo__sigmoid | brier | 0.219746 | 0.003327 | -0.000650 | 0.007131 | 543 |
+| E2_boost_elo__sigmoid | log_loss | 0.630103 | 0.008600 | -0.001480 | 0.017987 | 543 |
+| E3_10_70_20__isotonic | accuracy | 0.659300 | -0.001842 | -0.025736 | 0.022454 | 543 |
+| E3_10_70_20__isotonic | brier | 0.222188 | 0.005769 | 0.000705 | 0.010914 | 543 |
+| E3_10_70_20__isotonic | log_loss | 0.651108 | 0.029605 | 0.001806 | 0.072726 | 543 |
+| E3_10_70_20__raw | accuracy | 0.651934 | -0.009208 | -0.023595 | 0.005484 | 543 |
+| E3_10_70_20__raw | brier | 0.216346 | -0.000073 | -0.001205 | 0.001009 | 543 |
+| E3_10_70_20__raw | log_loss | 0.621294 | -0.000209 | -0.002896 | 0.002380 | 543 |
+| E3_10_70_20__sigmoid | accuracy | 0.653775 | -0.007366 | -0.022305 | 0.009225 | 543 |
+| E3_10_70_20__sigmoid | brier | 0.220142 | 0.003723 | 0.000073 | 0.006996 | 543 |
+| E3_10_70_20__sigmoid | log_loss | 0.630901 | 0.009398 | -0.000045 | 0.017987 | 543 |
+| E3_20_60_20__isotonic | accuracy | 0.659300 | -0.001842 | -0.028197 | 0.025410 | 543 |
+| E3_20_60_20__isotonic | brier | 0.221413 | 0.004994 | -0.000515 | 0.010185 | 543 |
+| E3_20_60_20__isotonic | log_loss | 0.650174 | 0.028671 | -0.001426 | 0.074019 | 543 |
+| E3_20_60_20__raw | accuracy | 0.653775 | -0.007366 | -0.020600 | 0.005576 | 543 |
+| E3_20_60_20__raw | brier | 0.216515 | 0.000096 | -0.001308 | 0.001358 | 543 |
+| E3_20_60_20__raw | log_loss | 0.621652 | 0.000149 | -0.003288 | 0.003191 | 543 |
+| E3_20_60_20__sigmoid | accuracy | 0.653775 | -0.007366 | -0.022346 | 0.009330 | 543 |
+| E3_20_60_20__sigmoid | brier | 0.220307 | 0.003888 | 0.000182 | 0.007290 | 543 |
+| E3_20_60_20__sigmoid | log_loss | 0.631265 | 0.009762 | -0.000061 | 0.018498 | 543 |
+| E3_25_50_25__isotonic | accuracy | 0.659300 | -0.001842 | -0.029686 | 0.025410 | 543 |
+| E3_25_50_25__isotonic | brier | 0.220966 | 0.004547 | -0.001187 | 0.009749 | 543 |
+| E3_25_50_25__isotonic | log_loss | 0.648803 | 0.027300 | -0.001815 | 0.071291 | 543 |
+| E3_25_50_25__raw | accuracy | 0.648250 | -0.012891 | -0.027726 | 0.003604 | 543 |
+| E3_25_50_25__raw | brier | 0.216645 | 0.000226 | -0.001530 | 0.001809 | 543 |
+| E3_25_50_25__raw | log_loss | 0.621932 | 0.000429 | -0.003854 | 0.004216 | 543 |
+| E3_25_50_25__sigmoid | accuracy | 0.659300 | -0.001842 | -0.018086 | 0.016276 | 543 |
+| E3_25_50_25__sigmoid | brier | 0.220301 | 0.003882 | 0.000061 | 0.007318 | 543 |
+| E3_25_50_25__sigmoid | log_loss | 0.631270 | 0.009767 | -0.000093 | 0.018630 | 543 |
+| E4_optimized__isotonic | accuracy | 0.664825 | 0.003683 | -0.021980 | 0.029252 | 543 |
+| E4_optimized__isotonic | brier | 0.220600 | 0.004181 | -0.001694 | 0.009656 | 543 |
+| E4_optimized__isotonic | log_loss | 0.648180 | 0.026677 | -0.003373 | 0.070815 | 543 |
+| E4_optimized__raw | accuracy | 0.657459 | -0.003683 | -0.016667 | 0.009381 | 543 |
+| E4_optimized__raw | brier | 0.216474 | 0.000055 | -0.001505 | 0.001506 | 543 |
+| E4_optimized__raw | log_loss | 0.621559 | 0.000056 | -0.003602 | 0.003471 | 543 |
+| E4_optimized__sigmoid | accuracy | 0.651934 | -0.009208 | -0.025643 | 0.009158 | 543 |
+| E4_optimized__sigmoid | brier | 0.220129 | 0.003710 | -0.000050 | 0.007005 | 543 |
+| E4_optimized__sigmoid | log_loss | 0.630889 | 0.009386 | -0.000337 | 0.017902 | 543 |
+| E5_logits__isotonic | accuracy | 0.662983 | 0.001842 | -0.022223 | 0.028986 | 543 |
+| E5_logits__isotonic | brier | 0.219934 | 0.003515 | -0.003105 | 0.010272 | 543 |
+| E5_logits__isotonic | log_loss | 0.650799 | 0.029296 | -0.006702 | 0.081100 | 543 |
+| E5_logits__raw | accuracy | 0.661142 | 0.000000 | -0.023766 | 0.024256 | 543 |
+| E5_logits__raw | brier | 0.216112 | -0.000307 | -0.004710 | 0.003866 | 543 |
+| E5_logits__raw | log_loss | 0.621662 | 0.000159 | -0.009853 | 0.010094 | 543 |
+| E5_logits__sigmoid | accuracy | 0.655617 | -0.005525 | -0.023595 | 0.014467 | 543 |
+| E5_logits__sigmoid | brier | 0.219889 | 0.003470 | -0.000587 | 0.007468 | 543 |
+| E5_logits__sigmoid | log_loss | 0.630411 | 0.008908 | -0.001337 | 0.018800 | 543 |
+| E5_probabilities__isotonic | accuracy | 0.662983 | 0.001842 | -0.022266 | 0.027524 | 543 |
+| E5_probabilities__isotonic | brier | 0.222292 | 0.005873 | -0.000449 | 0.012475 | 543 |
+| E5_probabilities__isotonic | log_loss | 0.673578 | 0.052075 | 0.000711 | 0.117302 | 543 |
+| E5_probabilities__raw | accuracy | 0.668508 | 0.007366 | -0.014520 | 0.031022 | 543 |
+| E5_probabilities__raw | brier | 0.216373 | -0.000046 | -0.004203 | 0.004026 | 543 |
+| E5_probabilities__raw | log_loss | 0.622798 | 0.001295 | -0.008944 | 0.010871 | 543 |
+| E5_probabilities__sigmoid | accuracy | 0.653775 | -0.007366 | -0.024257 | 0.010930 | 543 |
+| E5_probabilities__sigmoid | brier | 0.219965 | 0.003546 | -0.000485 | 0.007476 | 543 |
+| E5_probabilities__sigmoid | log_loss | 0.631088 | 0.009585 | -0.000789 | 0.019262 | 543 |
+| boosting | accuracy | 0.661142 | 0.000000 | 0.000000 | 0.000000 | 543 |
+| boosting | brier | 0.216419 | 0.000000 | 0.000000 | 0.000000 | 543 |
+| boosting | log_loss | 0.621503 | 0.000000 | 0.000000 | 0.000000 | 543 |
+| elo_margin | accuracy | 0.651934 | -0.009208 | -0.037111 | 0.018117 | 543 |
+| elo_margin | brier | 0.219134 | 0.002715 | -0.002417 | 0.007973 | 543 |
+| elo_margin | log_loss | 0.627875 | 0.006372 | -0.005349 | 0.018498 | 543 |
+| logistic | accuracy | 0.637201 | -0.023941 | -0.048696 | 0.003643 | 543 |
+| logistic | brier | 0.220803 | 0.004384 | -0.000622 | 0.009111 | 543 |
+| logistic | log_loss | 0.630879 | 0.009376 | -0.002382 | 0.020240 | 543 |
+
+Deltas are model minus annual-refit M5-architecture boosting. Lower Brier/log loss and higher accuracy are better. See comparison.csv for logistic and strongest-individual references, each year, and development scores. These are matched M7 annual predictions, not a reproduction of M5’s frozen-2022 artifact.
+
+Intervals are paired season-week bootstrap percentiles, unadjusted for examining up to 24 ensemble policies. Correlated weeks, repeated teams, few seasons and reuse of 2024–2025 preclude independent confirmation. Development selection results are not independent tests. No champion activation.

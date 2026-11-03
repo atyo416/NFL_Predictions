@@ -55,6 +55,11 @@ def main():
     for entry in entries:load_candidate(ROOT/'models/registry',entry['version'])
     evidence['checks']['registry_load']='passed' if entries else 'unrun: no registered candidates'
     evidence['registered_candidates_loaded']=len(entries)
+    if (ROOT/'reports/m7/latest.json').exists():
+        from nfl_predictor.ensemble_forecasts import prospective_summary
+        summary=prospective_summary(ROOT/'data/m7/experimental_forecasts')
+        evidence['experimental_ensemble_forecasts']=summary
+        evidence['checks']['M7_forecast_ledger']='passed' if summary['genuinely_issued_forecasts'] else 'unrun: issue genuine upcoming ensemble forecasts first'
     changed=[p for p,sha in hashes.items() if digest(p)!=sha]
     if changed:raise RuntimeError(f'Existing local artifacts changed: {changed}')
     evidence['checks']['preservation']='passed';evidence['preserved_artifacts']=len(hashes)
