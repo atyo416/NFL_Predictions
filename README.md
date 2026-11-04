@@ -565,3 +565,38 @@ sportsbook or paper-wager tables. Closing information may be later than model
 information, and previously examined 2024–2025 results remain exploratory.
 No model or policy is changed based on the benchmark. Missing prices/caches are
 reported rather than replaced or fetched from another provider.
+
+## M8.2: independent margin and historical ATS benchmark
+
+With the existing historical schedule/metric caches available, run in the
+Python 3.12 virtual environment:
+
+```powershell
+python -m nfl_predictor.cli report-m82
+python -m pytest -q tests/test_m82.py
+```
+
+The first command reuses M5/M7 compact pregame features, without reading raw PBP.
+Missing feature caches use the existing chronological reconstruction. Initial
+historical ingestion follows the M5 setup above; this command does not download
+missing seasons. It fits two fixed experimental regression families (Ridge,
+alpha 10; shallow histogram gradient boosting), once per target season using
+only eligible 2008–previous-season results. Subsequent runs verify and reuse
+`models/m82` artifacts. Production classifiers, model activation, forecasts,
+M8 odds/paper wagers and the M8.1 report remain unchanged.
+
+`M82_SPREAD_BENCHMARK_REPORT.md` records actual margin errors, paired uncertainty,
+and hypothetical ATS selection results at the three predefined point thresholds.
+`reports/m82/latest.json` identifies the run containing `predictions.csv`,
+`folds.csv` and source fingerprints. Model/data artifacts remain gitignored.
+The included `M82_SPREAD_PREDICTIONS.csv` is a small historical prediction audit,
+not a downloaded source dataset or prospective forecast ledger.
+
+Margins are home points minus away points. nflverse's home-favorite-positive
+`spread_line` is the market margin; positive actual-minus-market means home
+covered. Ties have margin zero; ATS pushes are excluded from conditional win
+rates. Development is 2019–2021; 2022–2025 remains exploratory. Closing lines and
+prices never enter the independent regressors. Price syntax availability is
+only descriptive: no verified quote times, executable pricing, realized ROI,
+cover-probability calibration, live odds collection or spread wager ledger is
+provided. No native Windows certification is implied by Linux tests.
