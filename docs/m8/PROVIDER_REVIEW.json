@@ -1,0 +1,69 @@
+{
+  "reviewed_at": "2026-11-04T03:11:50.526017+00:00",
+  "official_references": [
+    {
+      "url": "https://github.com/the-odds-api/samples-python/blob/master/odds.py",
+      "sha256": "b134e97ee935c2820b26c0e23c55dbc4b64960c3b128e443ca7ea2b5e6a0c2d8",
+      "bytes": 2955
+    },
+    {
+      "url": "https://github.com/the-odds-api/apps-script/blob/master/Odds.gs",
+      "sha256": "3432db119e12c872292a78b43fc03a369d6e73c92ae62adc5a103d90bea03cc4",
+      "bytes": 5255
+    },
+    {
+      "url": "https://github.com/the-odds-api/apps-script/blob/master/HistoricalOdds.gs",
+      "sha256": "114905e6801ca1c07b512f39d1c298927810468a0b7de8bfe21e7c42a0d17ade",
+      "bytes": 6157
+    },
+    {
+      "url": "https://github.com/the-odds-api/apps-script/blob/master/ClosingLinesFeaturedMarkets.gs",
+      "sha256": "00f052238bf23900acd6466932bad0561cf18d51f463f713fe868be90736782c",
+      "bytes": 8641
+    }
+  ],
+  "verified_contract": {
+    "endpoint": "GET /v4/sports/americanfootball_nfl/odds",
+    "parameters": [
+      "apiKey",
+      "regions=us",
+      "markets=h2h",
+      "oddsFormat=american",
+      "dateFormat=iso"
+    ],
+    "fields": [
+      "id",
+      "commence_time",
+      "home_team",
+      "away_team",
+      "bookmakers[].key",
+      "bookmakers[].last_update",
+      "bookmakers[].markets[].key",
+      "bookmakers[].markets[].outcomes[].name",
+      "bookmakers[].markets[].outcomes[].price"
+    ],
+    "historical_envelope": [
+      "timestamp",
+      "data"
+    ],
+    "quota_headers_documented": [
+      "x-requests-used",
+      "x-requests-remaining"
+    ],
+    "optional_header_recorded_if_present": "x-requests-last; not observed live",
+    "published_example_live_cost": "number of markets times number of regions",
+    "published_example_historical_cost": "10 times markets times regions; no historical network fetch implemented"
+  },
+  "limitations": [
+    "Official guide URL https://the-odds-api.com/liveapi/guides/v4/ was blocked by active proxy HTTP 403.",
+    "A network domain draft was saved but publication/application is not established by saving it.",
+    "ODDS_API_KEY was absent. No authenticated request, remaining quota, live prices or paid history was observed.",
+    "Current official GitHub code/documentation was inspected instead of relying on an old third-party response. Contract fixtures remain explicitly synthetic."
+  ],
+  "runtime_configuration_instruction": {
+    "skill": "cloud-environment:cloud-environment-runtime",
+    "source": "skill://plugin_connector_1p_c5b7d5df5d7081918f2c4be5a633ed5d/cloud-environment-runtime/SKILL.md",
+    "instruction": "Configuration changes require the environment configuration workflow and its user review.",
+    "effect": "Network draft saving alone does not activate access; independent offline implementation continued."
+  }
+}

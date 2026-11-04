@@ -1,0 +1,3 @@
+provider,bookmaker,event_id,market,selection,price,odds_format,home_team,away_team,kickoff,season,snapshot_at,quote_at,source_reference,scope,tie_rule,cancel_rule,reschedule_rule,rules_reference
+synthetic_fixture,synthetic_book,synthetic-event-1,h2h,LV,150,american,LV,KC,2023-10-08T17:00:00Z,2023,2023-10-07T16:59:00Z,2023-10-07T16:59:00Z,fixture://m8/artificial-prices,game_including_overtime,push,void_on_cancel,void_on_change,fixture://m8/artificial-rules
+synthetic_fixture,synthetic_book,synthetic-event-1,h2h,KC,-170,american,LV,KC,2023-10-08T17:00:00Z,2023,2023-10-07T16:59:00Z,2023-10-07T16:59:00Z,fixture://m8/artificial-prices,game_including_overtime,push,void_on_cancel,void_on_change,fixture://m8/artificial-rules

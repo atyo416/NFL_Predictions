@@ -8,9 +8,9 @@ from nfl_predictor.model import load
 from nfl_predictor.predictions import predict
 from nfl_predictor.database import connect,attach_results
 st.set_page_config(page_title='NFL Prediction Engine',layout='wide')
-st.title('NFL Game Prediction Engine · M7')
+st.title('NFL Game Prediction Engine · M8')
 st.caption('Experimental statistical baseline. Probabilities are not claimed to be calibrated.')
-page=st.sidebar.radio('Page',['Upcoming Games','Team Comparison','Model Performance','Model Analysis','Team Power Rankings'])
+page=st.sidebar.radio('Page',['Upcoming Games','Team Comparison','Model Performance','Model Analysis','Team Power Rankings','Betting Lab'])
 try:
     schedules,metrics=cached()
 except Exception as exc:
@@ -72,6 +72,9 @@ elif page=='Team Comparison':
     render_context(schedules,metrics,DATA,ROOT,a,b,selected)
     from nfl_predictor.ensemble_dashboard import render_matchup as render_ensemble_matchup
     render_ensemble_matchup(ROOT,DATA,selected)
+elif page=='Betting Lab':
+    from nfl_predictor.betting_dashboard import render
+    render(ROOT,DATA)
 elif page=='Team Power Rankings':
     from nfl_predictor.m3_dashboard import render_rankings
     render_rankings(DATA,ROOT/'reports')

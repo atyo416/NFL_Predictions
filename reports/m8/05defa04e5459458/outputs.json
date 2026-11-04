@@ -1,0 +1,15 @@
+{
+  "paper_performance.csv": "4c4167b829e95fef410ae04962d828e57634ff25af6c85d3c54e7f855b5fc79b",
+  "MARKET_REPORT.md": "49e7ed426254973b568cffc799313bf8c9758250f52d44182e7b7e74e29c7616",
+  "closing_lines.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "paper_ledger.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "benchmark_exclusions.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "comparison_exclusions.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "calibration.csv": "165fa0449ea37ebb432c53b8711775ff680462bedd241a56614aefca917cabc7",
+  "benchmark.csv": "64830617f494561b5ae32e2757825fe085a2773c876ad2b10f61b00468cb6bb8",
+  "metadata.json": "b2176d2b3f3417af02e38f7ccf1ef467ddbc98b4313e3bc487b33875332f79f1",
+  "match_audit.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "benchmark_predictions.parquet": "72db54371614591aa4d31fe0c9c42b7b3494375729d7c561f4637daa850f3e83",
+  "current_opportunities.parquet": "5edf01acfe5dd50858c610dd7ed02964dd10d465728f646ebf15a10a3ea0b519",
+  "probability_buckets.csv": "916d1df5c695fc8621a109ec59071b67e695142b6c3fdd1284d3b8b0f711c178"
+}

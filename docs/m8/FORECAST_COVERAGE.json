@@ -1,0 +1,25 @@
+{
+  "classification": "References to previously issued forecasts; not newly generated predictions",
+  "by_model": {
+    "official_logistic": 151,
+    "ensemble": 151,
+    "boosting": 151
+  },
+  "versions": {
+    "boosting": [
+      "m7-base-2026-boosting-079349ddbe0f0ce9"
+    ],
+    "ensemble": [
+      "m7-ensemble-2026-b1f6fd75323087f88037"
+    ],
+    "official_logistic": [
+      "20261103T043653-6d77120a"
+    ]
+  },
+  "artifact_checksums": [
+    "34031d18cb2a1e94a511f11061070ebda07eb95491e34f0e9a70f2709a8370a8",
+    "55a8c772fb0b8ad05497aed5ab655011490a7d5f96acf2f2cfa2793212b3a2c6",
+    "c4f228ed7ab6ced72c446b94a3183d07b48afb4fd62125157941c2097af4122b"
+  ],
+  "unavailable_real_odds": true
+}

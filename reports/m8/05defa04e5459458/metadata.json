@@ -1,0 +1,130 @@
+{
+  "run": "05defa04e545945814d7d5798b7a9f13298b6565e6eb4d971704be43914cbbbb",
+  "created_at": "2026-11-04T03:38:24.063278+00:00",
+  "decision_cutoff": "2026-11-04T03:23:06.986440+00:00",
+  "mode": "prospective",
+  "protocol": {
+    "version": "moneyline-paper-m8-v1",
+    "scope": "NFL h2h; research and simulated wagers only",
+    "stake_units": 1.0,
+    "thresholds": [
+      0.0,
+      0.03,
+      0.05
+    ],
+    "default_threshold": 0.03,
+    "default_model": "official_logistic",
+    "bookmaker_priority": [
+      "draftkings",
+      "fanduel",
+      "betmgm"
+    ],
+    "selection_rule": "First eligible bookmaker by fixed priority then lexical key; highest model-EV side, home on ties; strictly above threshold",
+    "max_quote_age_minutes": 15,
+    "max_forecast_age_hours": 24,
+    "kickoff_tolerance_seconds": 300,
+    "minimum_fetch_interval_seconds": 300,
+    "max_http_attempts": 2,
+    "max_retry_delay_seconds": 1,
+    "cohorts": {
+      "24h": {
+        "lead_hours": 24,
+        "tolerance_minutes": 15
+      },
+      "6h": {
+        "lead_hours": 6,
+        "tolerance_minutes": 10
+      },
+      "1h": {
+        "lead_hours": 1,
+        "tolerance_minutes": 5
+      }
+    },
+    "historical_seasons": [
+      2024,
+      2025
+    ],
+    "closing_window_minutes": 10,
+    "sensitivity_probability_shifts": [
+      -0.05,
+      -0.02,
+      0.0,
+      0.02,
+      0.05
+    ],
+    "bootstrap_replicates": 2000,
+    "confidence_level": 0.95,
+    "seed": 42,
+    "selection": "No threshold or model selection from evaluated returns; all sensitivity policies reported separately",
+    "promotion": "No model changes or real-money transactions",
+    "frozen_m7_policy": "E1_equal__raw"
+  },
+  "code_fingerprint": "7c853efab5d90d0f016f2a59570a3ce3593734b62694addbb8aa5df0b3b39f21",
+  "actual_quote_pairs": 0,
+  "synthetic_quote_pairs": 0,
+  "available_saved_forecasts": 453,
+  "forecast_issues": [],
+  "match_status_counts": {},
+  "comparison_rows": 0,
+  "real_matched_probability_games": 0,
+  "real_matched_rows": 0,
+  "benchmark_status": "unavailable_no_genuine_matched_graded_market_data",
+  "paper_summary": {
+    "wagers": 0,
+    "unique_games": 0,
+    "wins": 0,
+    "losses": 0,
+    "pushes": 0,
+    "voids": 0,
+    "pending": 0,
+    "review": 0,
+    "total_stake_units": 0,
+    "settled_stake_units": 0,
+    "net_simulated_profit_units": null,
+    "realized_roi": null,
+    "average_model_ev": null,
+    "maximum_drawdown_units": null,
+    "longest_losing_streak": null,
+    "roi_convention": "Settled stake includes refunded push/void entries; pending stakes excluded",
+    "drawdown_convention": "Aggregate equal availability timestamps before equity updates; losing streak ties use game ID; pushes do not reset streak"
+  },
+  "reconstructed_summary": {
+    "wagers": 0,
+    "unique_games": 0,
+    "wins": 0,
+    "losses": 0,
+    "pushes": 0,
+    "voids": 0,
+    "pending": 0,
+    "review": 0,
+    "total_stake_units": 0,
+    "settled_stake_units": 0,
+    "net_simulated_profit_units": null,
+    "realized_roi": null,
+    "average_model_ev": null,
+    "maximum_drawdown_units": null,
+    "longest_losing_streak": null,
+    "roi_convention": "Settled stake includes refunded push/void entries; pending stakes excluded",
+    "drawdown_convention": "Aggregate equal availability timestamps before equity updates; losing streak ties use game ID; pushes do not reset streak"
+  },
+  "provider": {
+    "credential_configured": false,
+    "requests_attempted": 0,
+    "last_fetch": null,
+    "last_success_at": null,
+    "quota": null,
+    "implementation_documentation_review": "The implementation environment blocked the direct official guide with HTTP 403; current official GitHub provider examples were reviewed. See docs/m8/PROVIDER_REVIEW.json. Current fetch/quota observations, if any, are listed separately."
+  },
+  "storage": {
+    "raw_responses": 0,
+    "raw_bytes": 0,
+    "database_bytes": 692224
+  },
+  "limitations": [
+    "No executable quote or actual profitability claim.",
+    "EV is conditional on binary/no-tie probability estimates.",
+    "Unknown tie/scope rules block paper issuance.",
+    "Paired week intervals are exploratory; repeat teams/cohorts/strategies are correlated.",
+    "Native combined M6/M7/M8 Windows execution is outstanding unless independently supplied."
+  ]
+}

@@ -1,13 +1,13 @@
-# NFL Game Prediction Engine — M7
+# NFL Game Prediction Engine — M8
 
-Local experimental NFL regular-season winner model using nflverse, Python, logistic regression, Parquet and SQLite. No betting features. CPU only; allow several GB of free disk space for initial play-by-play downloads. Python 3.11+ is required; Python 3.12 was verified on Linux. Windows 10/11 is the target, but a native Windows run has not been verified.
+Local experimental NFL regular-season winner model using nflverse, Python, logistic regression, Parquet and SQLite. Includes a separate simulation-only moneyline research lab; no real-money execution. CPU only; allow several GB of free disk space for initial play-by-play downloads. Python 3.11+ is required; Python 3.12 was verified on Linux. Windows 10/11 is the target, but a native Windows run has not been verified.
 
 ## Windows PowerShell: clean installation
 
 With Python and Git installed:
 
 ```powershell
-git clone --branch m7-ensemble-calibration https://github.com/atyo416/NFL_Predictions.git
+git clone --branch m8-moneyline-paper-lab https://github.com/atyo416/NFL_Predictions.git
 cd NFL_Predictions
 py -3.12 -m venv .venv
 .\.venv\Scripts\Activate.ps1
@@ -377,3 +377,168 @@ for combined M6/M7 processing and then inspect all pages, CPU and peak RAM.
 M6/M7 native Windows acceptance remains outstanding when only Linux checks are
 reported. See [M7_ENGINEERING_REPORT.md](M7_ENGINEERING_REPORT.md) for measured
 results, preservation evidence and limitations. No M8 features are implemented.
+
+
+## M8: moneyline market research and paper simulations
+
+M8 preserves existing M2/M5/M7 models, official SQLite and issued forecasts. Its
+own append-only database is `data/m8/lab.db`. Quotes and paper wagers cannot be
+updated or deleted; settlements and corrections append revision events. Upgrading
+an existing installation should retain its `data/` and `models/` folders. M8 never
+trains models or automatically replaces M7's frozen `E1_equal__raw` policy.
+
+```powershell
+python -m nfl_predictor.cli audit-odds
+python -m nfl_predictor.cli compare-market
+python -m nfl_predictor.cli issue-paper-bets --dry-run
+python -m nfl_predictor.cli issue-paper-bets
+python -m nfl_predictor.cli settle-paper-bets
+python -m nfl_predictor.cli report-m8
+python -m nfl_predictor.cli demo-m8
+python -m streamlit run app.py
+```
+
+No real sportsbook bet-placement, accounts or payments exist. All stake/P&L is in
+simulated units. Opening **Betting Lab** only reads local data. Refreshing/importing
+odds never trains a model. No prices or returns are invented if real data is absent.
+
+### Optional live prices
+
+The read-only Odds API v4 adapter requests NFL `h2h`, region `us`, American prices.
+Set a personal key in the current local PowerShell process, then explicitly fetch:
+
+```powershell
+$env:ODDS_API_KEY = "YOUR_LOCAL_KEY"
+python -m nfl_predictor.cli fetch-odds
+```
+
+Never put a real key in committed files or share it in chat. No key is required for
+tests, imports, saved reports or `demo-m8`. The cloud runtime had no key and blocked
+the direct official guide; current official provider GitHub examples were inspected
+for endpoint/schema/quota. See `docs/m8/PROVIDER_REVIEW.json`. A network draft alone
+does not apply permissions: cloud users must review/save and publish environment
+settings. This does not affect ordinary Windows Internet access.
+
+Default cooldown is five minutes, with at most two short bounded attempts. Safe
+quota headers are saved when returned; balances are unknown until a real fetch.
+Unchanged responses/markets deduplicate, while every request receipt remains
+traceable. Provider errors do not erase earlier quotes or affect prediction pages.
+No paid historical API fetch is implemented.
+
+### Offline and historical imports
+
+```powershell
+python -m nfl_predictor.cli import-odds --odds-file reviewed_quotes.csv
+python -m nfl_predictor.cli import-odds --odds-file saved_v4_response.json --rules-file reviewed_rules.json
+```
+
+CSV uses **two selection rows per coherent bookmaker market**, with required columns:
+`provider,bookmaker,event_id,market,selection,price,odds_format,home_team,away_team,
+kickoff,season,snapshot_at,quote_at,source_reference`. All dates must be timezone
+aware. Optional rules columns: `scope,tie_rule,cancel_rule,reschedule_rule,
+rules_reference`; optional closing columns: `closing_status,closing_reference`.
+Use `--source-kind unverified` for unverified provenance. `verified_archive` is an
+operator assertion requiring genuine timestamped evidence, not software
+verification of a source's authenticity. Actual import time is never backdated.
+
+`tests/fixtures/m8/historical_example.csv` is **artificial**, not NFL price history;
+import it only with `--source-kind synthetic`, preferably in a separate demo copy.
+The JSON fixture declares itself synthetic and cannot silently be promoted by an
+import flag. `demo-m8` exercises parsing, matching, EV and settlement in an isolated
+temporary database and writes `reports/m8_demo/SYNTHETIC_DEMO.json`; it does not add
+quotes/wagers to the real lab or claim actual model/market performance.
+
+API responses do not establish bookmaker house rules. For actual paper issuance,
+retain reviewed, applicable rule evidence. Example **schema only**, not a claim
+about any real bookmaker:
+
+```json
+{"bookmaker_key": {
+  "scope": "game_including_overtime",
+  "tie_rule": "push",
+  "cancel_rule": "manual_review",
+  "reschedule_rule": "manual_review",
+  "rules_reference": "retained genuine rules URL/document applicable to this market"
+}}
+```
+
+Scope defaults to unknown. Unknown tie rules, regulation-only/three-way markets
+or ties treated as losses cannot use our binary probabilities for paper issuance.
+Only documented tie push/void rules are supported for issuance. Cancellations and
+rescheduling with unknown rules remain in review. Corrected final scores append
+new settlements; original quoted odds, model probability and stake never change.
+An explicit audit correction is available:
+
+```powershell
+python -m nfl_predictor.cli void-paper-bet --wager-id EXACT_ID --reason "Documented correction reason"
+```
+
+### Temporal and statistical contract
+
+Read `docs/m8/PROTOCOL.md`. Exact team aliases/designated sides, season and kickoff
+within five minutes determine matching. Ambiguous/reversed/rescheduled/duplicate
+events need review. Both sides for no-vig must come from the same market object.
+No-vig is proportional normalization, not a true probability. EV `p*D-1` is a
+conditional binary/no-tie scenario; probability edge in percentage points is a
+separate quantity. ±2/±5-point sensitivity scenarios are not confidence intervals.
+
+Quotes, captures and forecast creation/information must precede the decision and
+kickoff. Default freshness: 15 minutes for quotes, 24 hours for forecast information.
+Market cohorts use 24h/6h/1h lead times with one-sided earlier windows of 15/10/5
+minutes; later quotes are excluded. Every probability comparison uses identical
+eligible games and one selected bookmaker per game/cohort, never each price update
+as an independent game. Prices are not assumed executable. Model estimates are not
+called profitable merely because EV is positive.
+
+The default paper policy is champion logistic, EV strictly greater than 3%, and one
+unit. The first eligible book follows fixed priority then lexical identity; choose
+the higher-EV side, home on ties. Optional `--model-family boosting` or `ensemble`,
+`--ev-threshold 0`/`0.03`/`0.05`, and `--cohort manual`/`24h`/`6h`/`1h` create distinct
+preregistered strategy versions. No threshold is optimized using evaluated returns.
+No `--cutoff` is accepted for paper issuance: it always records actual current time.
+Repeated opportunity issuance reuses the first immutable wager. Dry run saves no
+wagers; source/reference audits may be populated.
+
+Genuine market benchmarking requires genuinely issued predictions and observed
+prices. Optional historical reconstruction uses:
+
+```powershell
+python -m nfl_predictor.cli report-m8 --reconstructed
+python -m nfl_predictor.cli reconstruct-paper-bets --reconstructed
+```
+
+Genuine archived odds are required. Existing M7 kickoff-cutoff predictions are too
+late for earlier cohorts. Reconstruction performs inference using frozen annual
+M7 artifacts with **new decision-cutoff features**, without fitting any model;
+its logistic output is a historical M2-architecture refit, not the official issued
+champion forecast. The frozen M7 policy must still match. 2024–2025 remains
+exploratory; reconstructed decisions are never labeled genuinely issued wagers.
+
+Report ROI is settled profit / settled stake including push/void refunds, excluding
+pending stakes; it is undefined without settlements. Drawdown aggregates equal-time
+results before updating equity. Compare models/books/thresholds/seasons/cohorts
+separately. Multiple strategies on one game are correlated exposures. CLV requires
+an explicitly evidenced final pregame price within ten minutes, same bookmaker and
+selection; merely last observed is not verified closing, and CLV does not prove
+profitability. Real market metrics remain unavailable without genuine matched data.
+
+### Combined native Windows verification
+
+On genuine Windows Python 3.12, use the M8 checklist:
+
+```powershell
+.\scripts\windows_m8_acceptance.ps1 -Full
+```
+
+This preserves accepted model selections while checking M6 data, existing M7
+forecast artifacts, all tests, M8 offline fixtures, the ledger and all six pages.
+Live API fetching is optional and costs quota only when explicitly requested:
+`.\scripts\windows_m8_acceptance.ps1 -Full -LiveOdds`. The older M7 acceptance
+script remains available unchanged; its historical model comparisons can refit
+research models, so the M8 checklist avoids those selection commands. Start the
+UI manually, inspect all tabs and record actual Windows RAM/runtime. Linux checks
+do not establish native M6/M7/M8 Windows acceptance.
+
+See `M8_ENGINEERING_REPORT.md` for actual coverage, tests, ungraded/missing data and
+limitations. Existing source PBP gaps and retrospective data-vintage assumptions
+remain. M9 is not implemented.

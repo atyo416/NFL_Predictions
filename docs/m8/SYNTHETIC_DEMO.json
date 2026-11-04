@@ -1,0 +1,55 @@
+{
+  "classification": "SYNTHETIC SOFTWARE VERIFICATION ONLY; not actual NFL odds, model performance or betting returns",
+  "artificial_games": 3,
+  "normalized_pairs": 3,
+  "deduplicated_import": "passed",
+  "strategy_wagers": 27,
+  "unique_game_count": 3,
+  "statuses": {
+    "win": 9,
+    "loss": 9,
+    "push": 9
+  },
+  "correlated_exposure_summary_not_inference": {
+    "wagers": 27,
+    "unique_games": 3,
+    "wins": 9,
+    "losses": 9,
+    "pushes": 9,
+    "voids": 0,
+    "pending": 0,
+    "review": 0,
+    "total_stake_units": 27.0,
+    "settled_stake_units": 27.0,
+    "net_simulated_profit_units": 4.5,
+    "realized_roi": 0.16666666666666666,
+    "average_model_ev": 0.125,
+    "maximum_drawdown_units": 9.0,
+    "longest_losing_streak": 9,
+    "roi_convention": "Settled stake includes refunded push/void entries; pending stakes excluded",
+    "drawdown_convention": "Aggregate equal availability timestamps before equity updates; losing streak ties use game ID; pushes do not reset streak"
+  },
+  "unit_math_example": {
+    "american_150_decimal": "2.5",
+    "american_minus150_decimal": "1.666666666666666666666666667",
+    "pair": {
+      "implied_home": 0.4,
+      "implied_away": 0.6296296296296297,
+      "overround": 1.0296296296296297,
+      "bookmaker_margin": 0.02962962962962963,
+      "no_vig_home": 0.38848920863309355,
+      "no_vig_away": 0.6115107913669064,
+      "underround": false
+    },
+    "model_45_percent_at_plus150": {
+      "ev_per_unit": 0.125,
+      "expected_roi_percent": 12.5,
+      "break_even_probability": 0.4,
+      "probability_minus_break_even": 0.05,
+      "minimum_probability_for_threshold": 0.412,
+      "interpretation": "Conditional binary/no-tie model scenario; not verified profitability or executable pricing"
+    }
+  },
+  "settlement_idempotence": "passed",
+  "real_market_results": null
+}

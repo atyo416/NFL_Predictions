@@ -23,7 +23,7 @@ def main():
     parser.add_argument('--snapshot-only',action='store_true')
     parser.add_argument('--baseline')
     args=parser.parse_args()
-    paths=[p for base in ['models','data/ratings'] for p in (ROOT/base).rglob('*') if p.is_file()]+[ROOT/'data/predictions.db']
+    paths=[p for base in ['models','data/ratings','data/m7/experimental_forecasts'] for p in (ROOT/base).rglob('*') if p.is_file()]+[ROOT/'data/predictions.db']
     hashes={str(p):digest(p) for p in paths if p.is_file()}
     if args.snapshot_only:
         if not args.baseline:parser.error('--snapshot-only requires --baseline')
@@ -45,7 +45,7 @@ def main():
     else:evidence['checks']['champion_load']='unrun: restore existing local champion artifact first'
     from streamlit.testing.v1 import AppTest
     app=AppTest.from_file(str(ROOT/'app.py'),default_timeout=180).run()
-    for page in ['Upcoming Games','Team Comparison','Model Performance','Model Analysis','Team Power Rankings']:
+    for page in ['Upcoming Games','Team Comparison','Model Performance','Model Analysis','Team Power Rankings','Betting Lab']:
         if not app.sidebar.radio:evidence['checks'][page]='unrun: source cache missing';continue
         app.sidebar.radio[0].set_value(page).run()
         if app.exception:raise RuntimeError(f'{page}: {list(app.exception)}')
@@ -60,6 +60,18 @@ def main():
         summary=prospective_summary(ROOT/'data/m7/experimental_forecasts')
         evidence['experimental_ensemble_forecasts']=summary
         evidence['checks']['M7_forecast_ledger']='passed' if summary['genuinely_issued_forecasts'] else 'unrun: issue genuine upcoming ensemble forecasts first'
+    if (ROOT/'data/m8/lab.db').exists():
+        import sqlite3
+        lab=sqlite3.connect((ROOT/'data/m8/lab.db').resolve().as_uri()+'?mode=ro',uri=True)
+        try:
+            if lab.execute('PRAGMA integrity_check').fetchone()[0]!='ok':raise RuntimeError('M8 SQLite integrity failure')
+            evidence['checks']['M8_SQLite_integrity']='passed'
+            evidence['M8_quote_pairs']=lab.execute('SELECT count(*) FROM quotes').fetchone()[0]
+            evidence['M8_paper_wagers']=lab.execute('SELECT count(*) FROM wagers').fetchone()[0]
+        finally:lab.close()
+    if (ROOT/'reports/m8_demo/SYNTHETIC_DEMO.json').exists():
+        evidence['checks']['M8_offline_fixture_pipeline']='passed'
+        evidence['M8_demo_classification']='Synthetic software verification only; no real market results'
     changed=[p for p,sha in hashes.items() if digest(p)!=sha]
     if changed:raise RuntimeError(f'Existing local artifacts changed: {changed}')
     evidence['checks']['preservation']='passed';evidence['preserved_artifacts']=len(hashes)

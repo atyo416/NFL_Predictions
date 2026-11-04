@@ -1,0 +1,10 @@
+{
+  "synthetic": true,
+  "description": "Artificial software test prices and events, not actual sportsbook history or NFL results.",
+  "rules": {"synthetic_book":{"scope":"game_including_overtime","tie_rule":"push","cancel_rule":"void_on_cancel","reschedule_rule":"void_on_change","rules_reference":"fixture://synthetic-book-rules"}},
+  "data": [
+    {"id":"synthetic-event-1","sport_key":"americanfootball_nfl","commence_time":"2023-10-08T17:00:00Z","home_team":"Las Vegas Raiders","away_team":"Kansas City Chiefs","bookmakers":[{"key":"synthetic_book","last_update":"2023-10-07T16:59:00Z","markets":[{"key":"h2h","outcomes":[{"name":"Las Vegas Raiders","price":150},{"name":"Kansas City Chiefs","price":-170}]}]}]},
+    {"id":"synthetic-event-2","sport_key":"americanfootball_nfl","commence_time":"2023-10-15T17:00:00Z","home_team":"Buffalo Bills","away_team":"Miami Dolphins","bookmakers":[{"key":"synthetic_book","last_update":"2023-10-14T16:59:00Z","markets":[{"key":"h2h","outcomes":[{"name":"Buffalo Bills","price":150},{"name":"Miami Dolphins","price":-170}]}]}]},
+    {"id":"synthetic-event-3","sport_key":"americanfootball_nfl","commence_time":"2023-10-22T17:00:00Z","home_team":"Baltimore Ravens","away_team":"Cincinnati Bengals","bookmakers":[{"key":"synthetic_book","last_update":"2023-10-21T16:59:00Z","markets":[{"key":"h2h","outcomes":[{"name":"Baltimore Ravens","price":150},{"name":"Cincinnati Bengals","price":-170}]}]}]}
+  ]
+}
