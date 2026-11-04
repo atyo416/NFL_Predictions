@@ -1,4 +1,4 @@
-# NFL Game Prediction Engine — M8
+# NFL Game Prediction Engine — M8.1
 
 Local experimental NFL regular-season winner model using nflverse, Python, logistic regression, Parquet and SQLite. Includes a separate simulation-only moneyline research lab; no real-money execution. CPU only; allow several GB of free disk space for initial play-by-play downloads. Python 3.11+ is required; Python 3.12 was verified on Linux. Windows 10/11 is the target, but a native Windows run has not been verified.
 
@@ -7,7 +7,7 @@ Local experimental NFL regular-season winner model using nflverse, Python, logis
 With Python and Git installed:
 
 ```powershell
-git clone --branch m8-moneyline-paper-lab https://github.com/atyo416/NFL_Predictions.git
+git clone --branch m81-historical-market https://github.com/atyo416/NFL_Predictions.git
 cd NFL_Predictions
 py -3.12 -m venv .venv
 .\.venv\Scripts\Activate.ps1
@@ -542,3 +542,26 @@ do not establish native M6/M7/M8 Windows acceptance.
 See `M8_ENGINEERING_REPORT.md` for actual coverage, tests, ungraded/missing data and
 limitations. Existing source PBP gaps and retrospective data-vintage assumptions
 remain. M9 is not implemented.
+
+
+## M8.1: free historical closing-line reference
+
+```powershell
+python -m nfl_predictor.cli report-m81
+```
+
+This lean command reads paired `home_moneyline`/`away_moneyline` fields from
+existing nflverse schedule caches and the saved M7 prediction matrices. It writes
+`M81_HISTORICAL_MARKET_REPORT.md` and performs no downloads, model fitting,
+calibration, bet selection or ledger writes. The Betting Lab includes a read-only
+expander for the report.
+
+Four-way comparisons cover available logistic/boosting/margin-Elo OOS history;
+a separate common sample adds the existing frozen ensemble only after its
+selection/meta/calibration cutoffs. Every model within a table uses identical
+games. The source is `historical_closing_reference`: bookmaker, precise quote
+timestamps and market rules remain unverified. It is never imported into the M8
+sportsbook or paper-wager tables. Closing information may be later than model
+information, and previously examined 2024–2025 results remain exploratory.
+No model or policy is changed based on the benchmark. Missing prices/caches are
+reported rather than replaced or fetched from another provider.

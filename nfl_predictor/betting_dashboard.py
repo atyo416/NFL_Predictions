@@ -16,6 +16,10 @@ def render(root,data):
     root=Path(root);data=Path(data)
     st.header('Betting Lab · research and paper simulation')
     st.caption('No real-money execution. Probability disagreement and model EV are conditional estimates, not verified advantages or executable prices.')
+    historical=root/'M81_HISTORICAL_MARKET_REPORT.md'
+    if historical.exists():
+        with st.expander('Historical closing-line reference · M8.1'):
+            st.markdown(historical.read_text(encoding='utf-8'))
     path=data/'m8/lab.db';pointer=root/'reports/m8/latest.json';run=None;meta=None
     if pointer.exists():
         run=pointer.parent/json.loads(pointer.read_text())['run'];checks=json.loads((run/'outputs.json').read_text())
