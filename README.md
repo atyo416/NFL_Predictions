@@ -644,3 +644,42 @@ metrics, and timestamps. Small-sample calibration is withheld below 100 binary
 games; no early winner is promoted. Dry-run writes nothing; report-only writes
 only the report. The PowerShell script is supplied for local acceptance; Linux
 verification does not certify native Windows behavior.
+
+## M9.1: personnel source audit and prospective evidence
+
+This diagnostic layer collects evidence only. It does not train models, infer
+confirmed starters, adjust probabilities or change existing forecast ledgers.
+With the Windows Python 3.12 virtual environment active:
+
+```powershell
+python -m pytest -q tests/test_m91.py
+python -m nfl_predictor.cli collect-personnel
+python -m nfl_predictor.cli report-m91
+```
+
+Collection explicitly fetches the five free nflreadpy sources: injuries, depth
+charts, weekly rosters, player statistics and snap counts. The default season
+is 2026; use `--seasons 2026` explicitly if desired. Each call has a bounded
+network timeout. It preserves lossless Parquet and immutable capture receipts
+under `data/m91`; failures are recorded without replacing previous snapshots.
+There is no scheduler, dashboard addition, model training or PBP rebuilding.
+Offline reporting writes `M91_PERSONNEL_DATA_REPORT.md` and compact coverage/schema
+outputs under `reports/m91`. Raw datasets remain gitignored.
+
+For M8.3-compatible diagnostics, call
+`nfl_predictor.personnel_evidence.as_of(directory, game, cutoff)`, where `directory`
+is `Path('data/m91')`, `game` supplies game_id/season/week/home_team/away_team/kickoff,
+and cutoff is timezone aware, nonfuture and before kickoff. Both capture and
+local preservation times must precede the cutoff. Historic audit caches are
+never silently imported as prospective evidence. Source update time is separate
+from original publication time, which remains unknown unless independently
+evidenced. Missing/naive source clocks are not assigned an invented timezone.
+
+Listed QB1 is not a confirmed starter. Multiple QB1 identities, unsupported
+IDs and missing ranks stay uncertain; no name-based matching is used. Injury
+designations and nulls remain distinct; missing is never interpreted as healthy.
+Player statistics/snap counts remain retrospective performance records. Existing
+M6 compact QB performance is checked for identity overlap, without reconstruction.
+The report distinguishes measured historical coverage from unmeasured seasons
+and documents why it does not yet establish a verified pregame modeling sample.
+Native Windows acceptance must be executed locally; Linux tests do not certify it.
