@@ -600,3 +600,47 @@ prices never enter the independent regressors. Price syntax availability is
 only descriptive: no verified quote times, executable pricing, realized ROI,
 cover-probability calibration, live odds collection or spread wager ledger is
 provided. No native Windows certification is implied by Linux tests.
+
+## M8.3: manual prospective checkpoints
+
+Use Windows / Python 3.12 and the existing historical caches. Refresh football
+information explicitly first, then inspect the plan before issuing:
+
+```powershell
+python -m nfl_predictor.cli update --seasons 2026 --refresh
+python -m nfl_predictor.cli weekly-m83 --dry-run
+python -m nfl_predictor.cli weekly-m83
+python -m nfl_predictor.cli weekly-m83 --report-only
+.\scripts\windows_m83_acceptance.ps1
+```
+
+The default on-time window is 25–24 hours before kickoff. Override the early
+window with `--tolerance-minutes`; `--late` permits a separate late cohort.
+Repeated operations retain the first saved forecast per game/kickoff/cohort.
+Changed kickoffs create new slots and exclude prior-schedule forecasts from
+matched comparisons. Run manually near each checkpoint; there is no scheduler.
+Football caches older than 24 hours block new issuance until refreshed.
+
+`--include-odds` explicitly opts into one bounded operation through the existing
+M8 Odds API adapter. Without a key, forecasts and grading still work. Existing
+`import-odds --odds-file reviewed.csv` or `.json` supports reviewed imports.
+Market comparisons require actual capture/import and quote timestamps before
+the forecast information cutoff. Fetching odds after issuance cannot make them
+available to that earlier forecast; import/fetch first if a same-cutoff market
+comparison is desired. M8 market records retain full raw evidence and book/team
+identities; this workflow never issues wagers.
+
+The M2 champion and valid previously issued frozen M7 policy artifacts supply
+inference; missing experimental artifacts are excluded with a reason, never
+reconstructed or retrained. Local cache retrieval is an observation bound, not
+proof of original publication; source revisions remain a limitation. Existing
+M7 forecasts keep their original cohort. New append-only forecasts, checkpoint
+misses, result corrections and successful run snapshots live under `data/m83`.
+Official SQLite forecasts and prior M7 ledgers are never modified.
+
+`M83_PROSPECTIVE_TRACKING_REPORT.md` and its read-only Betting Lab expander show
+checkpoint states, coverage/exclusions, pending/graded observations, matched
+metrics, and timestamps. Small-sample calibration is withheld below 100 binary
+games; no early winner is promoted. Dry-run writes nothing; report-only writes
+only the report. The PowerShell script is supplied for local acceptance; Linux
+verification does not certify native Windows behavior.

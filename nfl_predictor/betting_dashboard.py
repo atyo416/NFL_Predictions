@@ -16,6 +16,11 @@ def render(root,data):
     root=Path(root);data=Path(data)
     st.header('Betting Lab · research and paper simulation')
     st.caption('No real-money execution. Probability disagreement and model EV are conditional estimates, not verified advantages or executable prices.')
+    prospective=root/'M83_PROSPECTIVE_TRACKING_REPORT.md'
+    if prospective.exists():
+        with st.expander('Prospective checkpoint tracking · M8.3'):
+            st.markdown(prospective.read_text(encoding='utf-8'))
+            st.caption('Saved operational snapshot; run weekly-m83 explicitly to update. Check its observed_at and data_retrieval timestamps for freshness.')
     historical=root/'M81_HISTORICAL_MARKET_REPORT.md'
     if historical.exists():
         with st.expander('Historical closing-line reference · M8.1'):
