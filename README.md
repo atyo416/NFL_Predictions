@@ -716,3 +716,47 @@ for both teams and are overlapping diagnostics. No injury, QB or weather cause
 is inferred. Closing information can postdate model information, and historical
 2024–2025 is already explored. No research finding changes production behavior.
 Native Windows verification must be performed locally; no certification is claimed.
+
+## M9.1B: targeted market, late-season and coaching diagnostics
+
+```powershell
+python -m nfl_predictor.cli report-m91b
+python -m pytest -q tests/test_m91b.py
+```
+
+This offline command requires the existing M9.1A classified CSV and cached
+M7/M8.1 inputs. It validates their identities, outcomes and saved probabilities,
+then writes `M91B_TARGETED_ERROR_REPORT.md` and supporting CSVs in `reports/m91b`.
+It performs no model inference/training, downloads, personnel collection, odds
+fetching, wagering or production database writes.
+
+Market groups based on model/closing probabilities are defined independently
+of results; the 84 market-correct shared failures remain outcome-selected case
+studies. Model-specific ≥20pp groups use identical-game closing references and
+confidence/season controls. Closing prices may incorporate later information;
+this does not establish an executable prediction or betting rule.
+
+Standings counts use only earlier eligible completed games, including ties.
+Weeks 16 and 17–18 are compared with confidence/season controls; default playoff
+status is unknown. No tiebreaker engine, final-standing shortcut or rest-intent
+inference is used. Optional reviewed evidence at `data/m91b/playoff_evidence.json`
+is a list of game_id/team/status/source_reference/verification/published_at/
+captured_at/preserved_at records. Only genuine archived pregame evidence should
+be supplied: all three aware timestamps must precede kickoff, verification must
+be `verified_pregame`, and conflicting statuses remain unknown. Statuses are
+eliminated, berth_clinched, division_clinched, seeding_competitive or unresolved.
+These operator-reviewed claims are not independently authenticated by the code;
+do not backdate imports or invent historical observations.
+
+Historical schedule coach names support observed assignment/change proxies.
+Appointment dates, original publication and interim designations remain unknown.
+2018 is warmup; missing/left-censored histories are not silently established.
+First-four, remaining-first-season and established-coach groups are diagnostic,
+not causal coach effects. In-season replacement flags apply to the replacement
+season, without asserting interim status. Target-game snap counts remain
+postgame participation evidence; missing same-player records are not zero and
+reduced QB participation does not establish intentional rest.
+
+The report includes reproducibly selected case studies, source hashes, runtime,
+uncertainty and data gaps. No correction factor or M9.2 model is implemented.
+Native Windows acceptance must be run locally; Linux tests do not certify it.
