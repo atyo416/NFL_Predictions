@@ -683,3 +683,36 @@ M6 compact QB performance is checked for identity overlap, without reconstructio
 The report distinguishes measured historical coverage from unmeasured seasons
 and documents why it does not yet establish a verified pregame modeling sample.
 Native Windows acceptance must be executed locally; Linux tests do not certify it.
+
+## M9.1A: historical error and shared-failure diagnostics
+
+```powershell
+python -m nfl_predictor.cli report-m91a
+python -m pytest -q tests/test_m91a.py
+```
+
+This offline command reads the saved M7 OOS probabilities, exact-game matched
+M8.1 closing moneyline reference and existing compact pregame feature caches.
+It performs no inference, retraining, downloads, personnel collection, model
+selection or database writes. Missing saved predictions produce an actionable
+error rather than a reconstruction. Missing or ambiguous pregame feature caches
+remain missing; metadata/cutoff conflicts and checksum failures are rejected.
+
+The report is `M91A_PREDICTION_ERROR_REPORT.md`. `M91A_CLASSIFIED_ERRORS.csv`
+contains game/model errors and probability-loss contributions; detailed tables
+under `reports/m91a` cover confidence, seasons/phases, model/market favorites,
+divisional confidence strata, teams, existing EPA/Elo diagnostics, market
+probability differences, and shared failures. Small summary CSVs are included
+with this milestone; source data, model artifacts and source prediction matrices
+remain excluded from Git. Reproduction requires your existing historical caches.
+
+The 2019–2025 base sample and eligible 2024–2025 frozen-ensemble sample are
+separate; base rows repeated across these samples must not be pooled. Shared
+failures count each game once. Confidence-adjusted error gaps compare observed
+losses with the model's expected favorite-loss rate. Paired Brier differences
+use identical games against closing, with descriptive season-week bootstrap
+intervals; very small slices remain unreliable. Team tables count each matchup
+for both teams and are overlapping diagnostics. No injury, QB or weather cause
+is inferred. Closing information can postdate model information, and historical
+2024–2025 is already explored. No research finding changes production behavior.
+Native Windows verification must be performed locally; no certification is claimed.
